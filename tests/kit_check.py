@@ -80,6 +80,10 @@ def main() -> int:
         for col in ["(Child) ASIN", "Sessions", "Units Ordered", "Ordered Product Sales", "Conversion Rate"]:
             if col not in (rows[0] if rows else {}):
                 fail(f"sales fixture missing column {col}")
+    ops = PLUGIN / "agents" / "ops.md"
+    require(ops)
+    if ops.exists() and PREAMBLE not in ops.read_text():
+        fail("ops.md missing READ_ORDER preamble")
     if failures:
         print("FAIL")
         for f in failures:

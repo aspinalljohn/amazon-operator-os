@@ -31,6 +31,29 @@ def main() -> int:
         names = [p.get("name") for p in data.get("plugins", [])]
         if "amazon-operator-os" not in names:
             fail("marketplace.json must list plugin amazon-operator-os")
+    for rel in [
+        "template/AGENTS.md",
+        "template/exports/sales/README.md",
+        "template/exports/ads/README.md",
+        "template/exports/inventory/README.md",
+        "template/exports/reviews/README.md",
+        "template/exports/listings/README.md",
+        "template/reference/brand.md",
+        "template/reference/asins.md",
+        "template/reference/sources.md",
+        "template/reference/logic.md",
+        "template/reference/how-to-refresh.md",
+        "template/reference/delivery.md",
+        "docs/INSTALL.md",
+        "docs/EXPORTS.md",
+    ]:
+        require(ROOT / rel)
+    sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
+    if "# Sources" not in sources:
+        fail("template/reference/sources.md must start with a # Sources heading")
+    logic = (TEMPLATE / "reference" / "logic.md").read_text() if (TEMPLATE / "reference" / "logic.md").exists() else ""
+    if "# Operating logic" not in logic:
+        fail("template/reference/logic.md must start with # Operating logic")
     if failures:
         print("FAIL")
         for f in failures:

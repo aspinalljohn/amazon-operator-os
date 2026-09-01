@@ -149,6 +149,16 @@ def main() -> int:
                 )
                 break
             pos = i + 2
+    customer = PLUGIN / "agents" / "customer.md"
+    require(customer)
+    if customer.exists() and PREAMBLE not in customer.read_text():
+        fail("customer.md missing READ_ORDER preamble")
+    ri_path = PLUGIN / "skills" / "review-intelligence" / "SKILL.md"
+    require(ri_path)
+    if ri_path.exists():
+        ri = ri_path.read_text()
+        if "logic.md" not in ri:
+            fail("review-intelligence skill must mention logic.md")
     if failures:
         print("FAIL")
         for f in failures:

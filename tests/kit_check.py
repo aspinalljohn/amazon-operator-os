@@ -126,6 +126,29 @@ def main() -> int:
                 )
                 break
             pos = i + 2
+    inventory = PLUGIN / "agents" / "inventory.md"
+    require(inventory)
+    if inventory.exists() and PREAMBLE not in inventory.read_text():
+        fail("inventory.md missing READ_ORDER preamble")
+    inv_path = PLUGIN / "skills" / "inventory-risk" / "SKILL.md"
+    require(inv_path)
+    if inv_path.exists():
+        inv = inv_path.read_text()
+        if "logic.md" not in inv:
+            fail("inventory-risk skill must mention logic.md")
+        fallback = "only when logic has no cover flag"
+        pos = 0
+        while True:
+            i = inv.find("14", pos)
+            if i < 0:
+                break
+            if fallback not in inv[:i]:
+                fail(
+                    "14 must not appear as the primary flag instruction unless preceded by "
+                    '"only when logic has no cover flag"'
+                )
+                break
+            pos = i + 2
     if failures:
         print("FAIL")
         for f in failures:

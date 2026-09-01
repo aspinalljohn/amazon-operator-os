@@ -185,6 +185,18 @@ def main() -> int:
             for needle in ip_needles:
                 if needle in text:
                     fail(f"{skill_name} still contains client IP path {needle}")
+    wf = PLUGIN / "workflows" / "weekly-ops.rhai"
+    require(wf)
+    if wf.exists():
+        wt = wf.read_text()
+        for at in ["listing", "ads", "inventory", "customer", "creative"]:
+            needle = f'agent_type: "{at}"'
+            if needle not in wt:
+                fail(f"weekly-ops.rhai missing {needle}")
+    require(PLUGIN / "skills" / "operator-prove" / "SKILL.md")
+    require(PLUGIN / "commands" / "prove.md")
+    require(PLUGIN / "commands" / "weekly.md")
+    require(ROOT / "scripts" / "load-fixtures.sh")
     if failures:
         print("FAIL")
         for f in failures:

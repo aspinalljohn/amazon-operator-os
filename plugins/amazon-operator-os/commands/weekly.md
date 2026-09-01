@@ -1,0 +1,1 @@
+Run the weekly-ops workflow with args.mode weekly. Pass today's date as YYYY-MM-DD (workflows cannot call timestamp()). Optional ASIN from the user, else first in reference/asins.md, else first listing ASIN. agent_budget 8. Same fan-out as /prove. Prefer name weekly-ops or script_path .grok/workflows/weekly-ops.rhai; if folder trust refuses the path, pass the script inline.

@@ -2,6 +2,7 @@
 """Pack invariants for Amazon Operator OS. Run from repo root: python3 tests/kit_check.py"""
 from __future__ import annotations
 import json
+import re
 import sys
 from pathlib import Path
 
@@ -203,6 +204,12 @@ def main() -> int:
         ot = owf.read_text()
         if "cap" not in ot:
             fail("overnight-ops.rhai missing cap")
+        if "retry_cap" not in ot:
+            fail("overnight-ops.rhai missing retry_cap")
+        if "checks_failed" not in ot:
+            fail("overnight-ops.rhai missing checks_failed")
+        if re.search(r'"maxItems":\s*2\b', ot):
+            fail("overnight-ops.rhai seats schema must not use maxItems 2 (workflow truncates to cap)")
         for at in ["listing", "creative"]:
             needle = f'agent_type: "{at}"'
             if needle in ot:
@@ -210,8 +217,29 @@ def main() -> int:
     require(PLUGIN / "skills" / "install-overnight" / "SKILL.md")
     require(PLUGIN / "skills" / "overnight-ops" / "SKILL.md")
     require(PLUGIN / "commands" / "overnight.md")
+    overnight_cmd = PLUGIN / "commands" / "overnight.md"
+    if overnight_cmd.exists():
+        oc = overnight_cmd.read_text()
+        if "bin/overnight.sh" not in oc:
+            fail("overnight.md --now must run bin/overnight.sh")
+        if "do not exec" in oc.lower():
+            fail("overnight.md must not forbid exec of the wrapper")
+        if "agent_budget 8" not in oc:
+            fail("overnight.md missing agent_budget 8")
+    oskill = PLUGIN / "skills" / "overnight-ops" / "SKILL.md"
+    if oskill.exists() and "`agent_budget`: 8" not in oskill.read_text() and "agent_budget` 8" not in oskill.read_text() and "agent_budget 8" not in oskill.read_text():
+        fail("overnight-ops skill missing agent_budget 8")
     require(TEMPLATE / "bin" / "overnight.sh")
     require(TEMPLATE / "bin" / "overnight.plist.example")
+    osh = TEMPLATE / "bin" / "overnight.sh"
+    if osh.exists():
+        sh = osh.read_text()
+        if "--always-approve" not in sh:
+            fail("overnight.sh missing --always-approve")
+        if "-p " not in sh and "--single " not in sh:
+            fail("overnight.sh missing -p prompt")
+        if "--yolo" in sh:
+            fail("overnight.sh still uses --yolo")
     if failures:
         print("FAIL")
         for f in failures:

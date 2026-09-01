@@ -9,7 +9,7 @@ let meta = #{
     ],
 };
 
-// Callers pass agent_budget 4 (ops checks + cap 2 specialists + attach).
+// Callers pass agent_budget 8 (ops checks + cap 2 specialists + 2 retries each + attach).
 
 fn trimmed(s) {
     if type_of(s) == "string" {
@@ -61,7 +61,7 @@ let checks_schema = #{
         },
         "seats": #{
             "type": "array",
-            "maxItems": 2,
+            "maxItems": 3,
             "items": #{ "type": "string" },
         },
         "flags": #{
@@ -78,6 +78,7 @@ if report_date == () || report_date == "" {
 }
 
 let cap = 2;
+let retry_cap = 2;
 let default_priority = ["inventory", "ads", "customer"];
 
 let brief_path = "reports/morning-brief-" + report_date + ".md";
@@ -99,7 +100,7 @@ ops_prompt += "4. Write the skeleton morning brief to " + brief_path + ". Do not
 ops_prompt += "5. If ZERO sources could be read, write one line only: Overnight run could not read any source. Prefix INCOMPLETE BRIEF when any daily source is missing or unreadable.\n";
 ops_prompt += "6. Build spawn from tripped flags only. Map inventory-seat flags to inventory, ads-seat flags to ads, customer-seat flags to customer.\n";
 ops_prompt += "7. Priority from logic.md ## Overnight. Default inventory, ads, customer. Logic may reorder those three. Cap is 2 — logic may not raise it. If logic sets cap above 2, keep 2.\n";
-ops_prompt += "8. Return priority (the three seats in Overnight order) and seats (at most 2 seats, already priority-ordered). Quiet morning: seats is empty.\n";
+ops_prompt += "8. Return priority (the three seats in Overnight order) and seats (every flagged overnight seat in that order, inventory/ads/customer only). You may return up to 3. The workflow truncates to cap 2. Quiet morning: seats is empty.\n";
 ops_prompt += "9. Do not spawn children. Do not edit exports/.\n";
 
 let ops_r = agent(
@@ -115,6 +116,7 @@ let ops_r = agent(
 
 let zero_sources = false;
 let incomplete = false;
+let checks_failed = false;
 let priority = [];
 let spawn_raw = [];
 if ops_r != () && ops_r.success && ops_r.output != () {
@@ -141,8 +143,10 @@ if ops_r != () && ops_r.success && ops_r.output != () {
         }
     }
 } else {
-    log("ops checks failed or returned no schema — continuing with empty seat list");
+    log("ops checks failed or returned no schema — failure-safe one-liner, no specialists");
     incomplete = true;
+    checks_failed = true;
+    zero_sources = true;
 }
 
 if priority.len() == 0 {
@@ -207,6 +211,34 @@ if jobs.len() > 0 {
     results = parallel(jobs);
 }
 
+let retried = [];
+let ri = 0;
+for r in results {
+    let cur = r;
+    let failed = cur == () || (cur != () && !cur.success);
+    let tries = 0;
+    while failed && tries < retry_cap && ri < jobs.len() {
+        let job = jobs[ri];
+        log("retry specialist " + job.label + " " + (tries + 1).to_string() + "/" + retry_cap.to_string());
+        cur = agent(
+            job.prompt,
+            #{
+                label: job.label,
+                capability_mode: "read-write",
+                agent_type: job.label,
+                phase: "Specialists",
+            },
+        );
+        failed = cur == () || (cur != () && !cur.success);
+        tries += 1;
+    }
+    retried.push(cur);
+    ri += 1;
+}
+if retried.len() > 0 {
+    results = retried;
+}
+
 let att_inventory = "";
 let att_ads = "";
 let att_customer = "";
@@ -238,7 +270,9 @@ let attach_prompt = "";
 attach_prompt += "You are the ops agent for this Amazon brand. Cwd is the business folder.\n";
 attach_prompt += "Use tools (read_file, grep, glob, bash, write). Read files before you write anything. Do not answer from memory.\n\n";
 attach_prompt += "Follow overnight-ops for this Attach + Deliver pass. Date is " + report_date + ".\n";
-attach_prompt += "1. Read " + brief_path + " if it exists. If missing and zero sources, write one line only: Overnight run could not read any source.\n";
+attach_prompt += "1. Read " + brief_path + " if it exists.\n";
+attach_prompt += "   checks_failed=" + checks_failed.to_string() + " zero_sources=" + zero_sources.to_string() + " incomplete=" + incomplete.to_string() + ".\n";
+attach_prompt += "   If the brief is missing, or checks_failed, or zero_sources: write one line only: Overnight run could not read any source. Prefix INCOMPLETE BRIEF. Never a clean empty brief. Do not invent a full brief after a failed Checks pass.\n";
 attach_prompt += "2. Attach specialist artifact paths onto Flagged lines (the specialist-path slot). Failed slots are (not in the data) — do not crash.\n";
 attach_prompt += "Specialist attachments for this run (exact strings):\n";
 attach_prompt += json_encode(attachments) + "\n";
@@ -273,4 +307,5 @@ complete(#{
     specialists: attachments,
     zero_sources: zero_sources,
     incomplete: incomplete,
+    checks_failed: checks_failed,
 });

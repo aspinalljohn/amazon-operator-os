@@ -22,17 +22,19 @@ Gather/check is cheap; judgment on flags is the same model in v1. Do not expose 
 
 ## 0. Parent / wrapper / `/overnight`
 
-Do not call `spawn_subagent`. Start the `overnight-ops` workflow.
+If the operator typed `/overnight --now` in an interactive session: run `bash bin/overnight.sh` and wait. That is the noon dry-run of 5am. Do not start the overnight-ops workflow in this session — that skips `--always-approve`, cwd, allow/deny, and `logs/overnight-YYYY-MM-DD.log`.
+
+If this session is already the launchd wrapper (`bin/overnight.sh` / grok `--always-approve --max-turns 40`): do not call `spawn_subagent`. Start the `overnight-ops` workflow.
 
 - Prefer `name: "overnight-ops"` or `script_path` `.grok/workflows/overnight-ops.rhai`
 - If the host refuses the path for folder trust, pass `script` as the contents of `.grok/workflows/overnight-ops.rhai` (inline) with the same args
 - `args.date`: YYYY-MM-DD. Run `date +%F` first. Workflows cannot call `timestamp()`.
-- `agent_budget`: 4
+- `agent_budget`: 8
 - `validate_only`: false
 
-`/overnight --now` is the noon dry-run of this same path. The launchd wrapper is `bin/overnight.sh`.
+`/overnight` without `--now` may start the workflow in this session (interactive, not a 5am proof).
 
-Do not spawn listing, ads, inventory, customer, or creative yourself. The workflow Checks agent (ops) builds the spawn list; Specialists `parallel()` at most 2; Attach ops writes paths onto the brief and POSTs.
+Do not spawn listing, ads, inventory, customer, or creative yourself. The workflow Checks agent (ops) builds the spawn list; Specialists `parallel()` at most 2, then retries a failed spawn at most twice; Attach ops writes paths onto the brief and POSTs.
 
 ## 1. Sources to pull
 
@@ -66,7 +68,7 @@ Priority from logic.md ## Overnight. Default: inventory, ads, customer. Logic ma
 
 Never listing. Never creative. Drop those seats if they appear.
 
-Retry a failed specialist spawn at most twice, then record the slot as `(not in the data)` and move on. The overnight-ops workflow is one pass. Callers pass `agent_budget` 4 (ops checks + cap 2 specialists + attach) — do not raise it.
+The overnight-ops workflow `parallel()`s at most 2 specialists, then retries a failed spawn at most twice, then records the slot as `(not in the data)` and moves on. Callers pass `agent_budget` 8 (ops checks + cap 2 specialists + 2 retries each + attach). Do not raise the specialist cap.
 
 Specialist artifacts:
 

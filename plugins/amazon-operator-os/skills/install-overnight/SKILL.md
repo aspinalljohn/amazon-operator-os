@@ -43,8 +43,8 @@ Plist must keep:
 
 ## Noon dry-run
 
-Do not trust 5am yet. Tell them to run `/overnight --now` (the wrapper `bin/overnight.sh`) for a noon dry-run before trusting 5am.
+Do not trust 5am yet. Tell them to run `/overnight --now`. That command runs the wrapper `bin/overnight.sh` — the same script launchd runs at 5am (`grok --always-approve --cwd --max-turns 40` with allow/deny globs). It is not an in-session overnight-ops workflow.
 
-That dry-run is the same overnight-ops path: morning brief, at most 2 flagged specialists, never listing or creative. They should see `reports/morning-brief-YYYY-MM-DD.md` and `logs/overnight-YYYY-MM-DD.log`.
+They should see `reports/morning-brief-YYYY-MM-DD.md` and `logs/overnight-YYYY-MM-DD.log`. If the log is missing, the dry-run did not prove 5am.
 
 Do not run the wrapper yourself unless they asked to dry-run now.

@@ -84,6 +84,25 @@ def main() -> int:
     require(ops)
     if ops.exists() and PREAMBLE not in ops.read_text():
         fail("ops.md missing READ_ORDER preamble")
+    listing = PLUGIN / "agents" / "listing.md"
+    require(listing)
+    if listing.exists():
+        listing_text = listing.read_text()
+        if PREAMBLE not in listing_text:
+            fail("listing.md missing READ_ORDER preamble")
+        if "reports/listing-audit-" not in listing_text:
+            fail("listing.md missing artifact path string reports/listing-audit-")
+    la_path = PLUGIN / "skills" / "listing-audit" / "SKILL.md"
+    require(la_path)
+    if la_path.exists():
+        la = la_path.read_text()
+        if PREAMBLE not in la:
+            fail("listing-audit missing READ_ORDER preamble")
+        if "reports/listing-audit-" not in la:
+            fail("listing-audit missing artifact path string reports/listing-audit-")
+        for needle in ["02 aspi/", "05 fractional/", "Wood Defender"]:
+            if needle in la:
+                fail(f"listing-audit still contains client IP path {needle}")
     if failures:
         print("FAIL")
         for f in failures:

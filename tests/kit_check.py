@@ -54,6 +54,15 @@ def main() -> int:
     logic = (TEMPLATE / "reference" / "logic.md").read_text() if (TEMPLATE / "reference" / "logic.md").exists() else ""
     if "# Operating logic" not in logic:
         fail("template/reference/logic.md must start with # Operating logic")
+    for name in ["operator-setup", "operator-sources", "operator-logic"]:
+        p = PLUGIN / "skills" / name / "SKILL.md"
+        require(p)
+        if p.exists():
+            text = p.read_text()
+            if name == "operator-setup" and "spawn_subagent" not in text:
+                fail("operator-setup must explicitly forbid spawn_subagent")
+            if "parent session" not in text.lower() and "parent/ops" not in text.lower() and "PARENT" not in text:
+                fail(f"{name} must say it runs in the parent session")
     if failures:
         print("FAIL")
         for f in failures:

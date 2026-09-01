@@ -63,6 +63,23 @@ def main() -> int:
                 fail("operator-setup must explicitly forbid spawn_subagent")
             if "parent session" not in text.lower() and "parent/ops" not in text.lower() and "PARENT" not in text:
                 fail(f"{name} must say it runs in the parent session")
+    import csv
+    require(FIXTURES / "logic.md")
+    if (FIXTURES / "logic.md").exists():
+        lt = (FIXTURES / "logic.md").read_text()
+        if "TACOS" not in lt:
+            fail("fixture logic.md must use TACOS as a watch metric so we catch ACOS-default bugs")
+        if "defaults-not-reviewed" in lt:
+            fail("fixture logic.md must be a reviewed example, not defaults")
+    sales = FIXTURES / "sales" / "business-report.csv"
+    require(sales)
+    if sales.exists():
+        rows = list(csv.DictReader(sales.open()))
+        if len(rows) < 6:
+            fail("sales fixture needs at least 6 child ASIN rows")
+        for col in ["(Child) ASIN", "Sessions", "Units Ordered", "Ordered Product Sales", "Conversion Rate"]:
+            if col not in (rows[0] if rows else {}):
+                fail(f"sales fixture missing column {col}")
     if failures:
         print("FAIL")
         for f in failures:

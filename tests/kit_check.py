@@ -159,6 +159,32 @@ def main() -> int:
         ri = ri_path.read_text()
         if "logic.md" not in ri:
             fail("review-intelligence skill must mention logic.md")
+    creative = PLUGIN / "agents" / "creative.md"
+    require(creative)
+    if creative.exists():
+        creative_text = creative.read_text()
+        if PREAMBLE not in creative_text:
+            fail("creative.md missing READ_ORDER preamble")
+        if "reports/creative-brief-" not in creative_text:
+            fail("creative.md missing artifact path string reports/creative-brief-")
+    banned = ["higgsfield", "gpt-image", "image_gen", "generate the image"]
+    ip_needles = ["02 aspi/", "05 fractional/", "Wood Defender", "velocity-sellers"]
+    for skill_name in ["aplus-brief", "image-stack-brief"]:
+        p = PLUGIN / "skills" / skill_name / "SKILL.md"
+        require(p)
+        if p.exists():
+            text = p.read_text()
+            lower = text.lower()
+            if PREAMBLE not in text:
+                fail(f"{skill_name} missing READ_ORDER preamble")
+            if "reports/creative-brief-" not in text:
+                fail(f"{skill_name} missing artifact path string reports/creative-brief-")
+            for needle in banned:
+                if needle.lower() in lower:
+                    fail(f"{skill_name} mentions {needle}")
+            for needle in ip_needles:
+                if needle in text:
+                    fail(f"{skill_name} still contains client IP path {needle}")
     if failures:
         print("FAIL")
         for f in failures:

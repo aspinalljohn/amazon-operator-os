@@ -1,0 +1,12 @@
+{
+  "name": "Operator Intelligence",
+  "description": "Grok packs for Amazon brand operators",
+  "owner": { "name": "John Aspinall", "email": "john@goaspi.com" },
+  "plugins": [
+    {
+      "name": "amazon-operator-os",
+      "description": "Six-agent Amazon operator OS: Ops, Listing, Ads, Inventory, Customer, Creative",
+      "source": { "type": "local", "path": "./plugins/amazon-operator-os" }
+    }
+  ]
+}

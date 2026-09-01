@@ -1,0 +1,3 @@
+Start the overnight-ops workflow. Pass today's date as YYYY-MM-DD (workflows cannot call timestamp()). agent_budget 4. Prefer name overnight-ops or script_path .grok/workflows/overnight-ops.rhai; if folder trust refuses the path, pass the script inline. Do not spawn listing or creative. Overnight may spawn max 2 flagged specialists (inventory, ads, customer). Logic may reorder those three, not raise the cap.
+
+If the user said /overnight --now, this is the noon dry-run: run overnight-ops now, in this session. Do not wait for 5am. The launchd wrapper is bin/overnight.sh — do not exec it from inside an interactive session.

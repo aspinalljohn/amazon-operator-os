@@ -22,7 +22,7 @@ Before any analysis or artifact, read `AGENTS.md`, then `reference/sources.md`, 
 
 Never spawn during setup/sources/logic. Do not call spawn_subagent and do not start a workflow while interviewing. The operator is answering questions; a child agent cannot do that.
 
-Overnight spawn list is Task 11 — in this version do not spawn specialists.
+Overnight may spawn max 2 flagged specialists. Never listing or creative. Priority from logic.md Overnight section, default inventory > ads > customer. Logic may reorder those three, not raise the cap. Start the overnight-ops workflow; do not spawn those specialists yourself.
 
 ## Artifacts
 

@@ -197,6 +197,21 @@ def main() -> int:
     require(PLUGIN / "commands" / "prove.md")
     require(PLUGIN / "commands" / "weekly.md")
     require(ROOT / "scripts" / "load-fixtures.sh")
+    owf = PLUGIN / "workflows" / "overnight-ops.rhai"
+    require(owf)
+    if owf.exists():
+        ot = owf.read_text()
+        if "cap" not in ot:
+            fail("overnight-ops.rhai missing cap")
+        for at in ["listing", "creative"]:
+            needle = f'agent_type: "{at}"'
+            if needle in ot:
+                fail(f"overnight-ops.rhai must not contain {needle}")
+    require(PLUGIN / "skills" / "install-overnight" / "SKILL.md")
+    require(PLUGIN / "skills" / "overnight-ops" / "SKILL.md")
+    require(PLUGIN / "commands" / "overnight.md")
+    require(TEMPLATE / "bin" / "overnight.sh")
+    require(TEMPLATE / "bin" / "overnight.plist.example")
     if failures:
         print("FAIL")
         for f in failures:

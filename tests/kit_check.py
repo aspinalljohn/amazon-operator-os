@@ -103,6 +103,29 @@ def main() -> int:
         for needle in ["02 aspi/", "05 fractional/", "Wood Defender"]:
             if needle in la:
                 fail(f"listing-audit still contains client IP path {needle}")
+    ads = PLUGIN / "agents" / "ads.md"
+    require(ads)
+    if ads.exists() and PREAMBLE not in ads.read_text():
+        fail("ads.md missing READ_ORDER preamble")
+    ppc_path = PLUGIN / "skills" / "ppc-exception-brief" / "SKILL.md"
+    require(ppc_path)
+    if ppc_path.exists():
+        ppc = ppc_path.read_text()
+        if "logic.md" not in ppc:
+            fail("ppc-exception-brief skill must mention logic.md")
+        fallback = "only when logic has no ads flags"
+        pos = 0
+        while True:
+            i = ppc.find("35", pos)
+            if i < 0:
+                break
+            if fallback not in ppc[:i]:
+                fail(
+                    "35 must not appear as the primary flag instruction unless preceded by "
+                    '"only when logic has no ads flags"'
+                )
+                break
+            pos = i + 2
     if failures:
         print("FAIL")
         for f in failures:

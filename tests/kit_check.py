@@ -33,6 +33,7 @@ def main() -> int:
         if "amazon-operator-os" not in names:
             fail("marketplace.json must list plugin amazon-operator-os")
     for rel in [
+        "template/README.md",
         "template/AGENTS.md",
         "template/exports/sales/README.md",
         "template/exports/ads/README.md",
@@ -195,6 +196,9 @@ def main() -> int:
             if needle not in wt:
                 fail(f"weekly-ops.rhai missing {needle}")
     require(PLUGIN / "skills" / "operator-prove" / "SKILL.md")
+    require(PLUGIN / "skills" / "operator-setup" / "SKILL.md")
+    require(PLUGIN / "commands" / "operator-setup.md")
+    require(PLUGIN / "commands" / "install-overnight.md")
     require(PLUGIN / "commands" / "prove.md")
     require(PLUGIN / "commands" / "weekly.md")
     require(ROOT / "scripts" / "load-fixtures.sh")
@@ -231,6 +235,11 @@ def main() -> int:
         fail("overnight-ops skill missing agent_budget 8")
     require(TEMPLATE / "bin" / "overnight.sh")
     require(TEMPLATE / "bin" / "overnight.plist.example")
+    require(TEMPLATE / ".grok" / "commands" / "operator-setup.md")
+    require(TEMPLATE / ".grok" / "commands" / "install-overnight.md")
+    nested_cmd = TEMPLATE / ".grok" / "commands" / "commands"
+    if nested_cmd.exists():
+        fail("template/.grok/commands/commands nested dir — run sync-template-grok.sh (flat copy)")
     osh = TEMPLATE / "bin" / "overnight.sh"
     if osh.exists():
         sh = osh.read_text()

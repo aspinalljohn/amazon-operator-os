@@ -1,6 +1,17 @@
 # QA matrix — Amazon Operator OS
 
-v1 does not ship if a row in the results table is **fail**. Live grok is optional evidence, not a reason to invent a pass. Record **pass**, **fail**, or **skipped** with a reason.
+v1 does not ship if a row in the results table is **fail**. Live grok is optional evidence for pack-only rows, not a reason to invent a pass. Record **pass**, **fail**, or **skipped** with a reason.
+
+## Pre-ship live checklist (required once per release)
+
+On a Mac with `grok` installed and authenticated:
+
+1. Fresh folder: `cp -R template /tmp/northline-live && bash scripts/load-fixtures.sh /tmp/northline-live && cd /tmp/northline-live`
+2. Interactive `/prove` → six artifacts, TACOS north star, scoreboard two lines
+3. `/overnight --now` → morning brief + log; default fixtures spawn inventory + ads (cap 2)
+4. Optional: delivery 404 row (webhook to invalid URL)
+
+Record results in the table below before selling. Do not ship on pack-only passes if live `/prove` hits max-turns before Phase 2 completes.
 
 Internal fixtures: anonymized Northline Home (6 child ASINs, 14-day sales, 2 SP campaigns, mixed cover, 40 reviews, listing markdown). North star is TACOS, not ACOS. No live Amazon account required.
 

@@ -78,7 +78,7 @@ Do not put webhook URLs, xAI keys, or Seller Central logins in the log.
 - `docs/INSTALL.md`, `docs/EXPORTS.md` (catalog)
 - Plugin / repo access if invited
 - Six agents: ops, listing, ads, inventory, customer, creative
-- `/operator-setup`, `/sources`, `/logic`, `/prove`, `/weekly`
+- `/operator-setup`, `/sources`, `/logic`, `/prove`, `/weekly`, `/install-overnight`, `/overnight --now`
 - Optional overnight (`/install-overnight`, `/overnight --now`)
 
 ## What's not

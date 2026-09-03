@@ -78,7 +78,14 @@ Artifacts: N/6
 Logic: K of M watch metrics had data. <metric> = no source.
 ```
 
-`M` is the row count of logic.md `## Metrics I watch`. `K` is how many of those have a connected, readable `source_id`. Name each watch metric whose source is missing or unreadable as `<metric> = no source.` If every watch metric had data, omit the metric list.
+`M` is the row count of logic.md `## Metrics I watch`.
+
+For each watch metric, resolve `source_id`:
+
+- Single id → that row in sources.md must be `status: connected` and readable on disk (or via MCP).
+- Composite id → split on `+`, trim each part. **All** parts must be connected and readable. Example: `sales + ads-campaigns` needs both `sales` and `ads-campaigns`.
+
+`K` is how many watch metrics pass that test. Name each failing metric as `<metric> = no source.` If every watch metric had data, omit the metric list.
 
 `/prove` **passes** if all six files exist on disk. It does **not** fail because a watch metric lacks a source — that is the second line, so they can add a source or drop the metric.
 

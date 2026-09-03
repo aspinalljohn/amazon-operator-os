@@ -417,7 +417,7 @@ Same ASIN selection rule as Listing.
 
 Volume-lane-router is an internal note in overnight-ops (gather/check is cheap; judgment on flags is the same model in v1). Do not expose a model-router UI to the buyer in v1. One xAI model, one bill.
 
-Plugin agent frontmatter must not set `permissionMode: bypassPermissions` (Grok ignores it on plugin agents). Overnight always-approve is a CLI flag on `grok -p`, not an agent file.
+Plugin agent frontmatter must not set `permissionMode: bypassPermissions` (Grok ignores it on plugin agents). Overnight always-approve is a CLI flag on `grok --always-approve`, not an agent file.
 
 ---
 
@@ -474,20 +474,21 @@ bin/overnight.sh
 
 Behavior:
 
-```
+```bash
 cd "$OPS_DIR"
 DATE=$(date +%F)
-grok -p --yolo --cwd "$OPS_DIR" --max-turns 40 \
+grok --always-approve --cwd "$OPS_DIR" --max-turns 40 \
   --allow 'Read(./**)' \
   --allow 'Write(./reports/**)' \
   --allow 'Write(./drafts/**)' \
   --allow 'Write(./logs/**)' \
   --deny 'Write(./exports/**)' \
   --deny 'Bash(rm*)' \
-  --prompt-file ./reference/overnight-prompt.md
+  -p "Run the overnight-ops skill and overnight-ops workflow for ${DATE}. Follow reference/sources.md and reference/logic.md. Do not spawn listing or creative." \
+  >> "logs/overnight-${DATE}.log" 2>&1
 ```
 
-`reference/overnight-prompt.md` is written by setup: "Run overnight-ops for $DATE. Follow the overnight-ops skill and the overnight-ops workflow."
+Setup does not write a separate prompt file in v1; the wrapper passes the prompt inline.
 
 Workflow `overnight-ops.rhai` / skill `overnight-ops`:
 
@@ -516,7 +517,7 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 | Rule | v1 |
 |---|---|
 | Interactive permissions | ask (Grok default) |
-| Overnight permissions | `--yolo` plus allow/deny globs above |
+| Overnight permissions | `--always-approve` plus allow/deny globs above |
 | Writes | `reports/`, `drafts/`, `logs/`, `reference/` (setup, `/sources`, `/logic` only) |
 | `exports/` | read-only forever |
 | Outside the business folder | deny |

@@ -13,3 +13,14 @@ A source not in `reference/sources.md` is not checked overnight and is not deman
 | `exports/listings/` | `catalog.csv` or `listings.md` | All Listings Report, or ASIN + Amazon URL + current title. Public Amazon URL is a fallback | ASIN, title, at least one URL or the full listing text |
 
 Operators who live in Sheets, Helium10, or a pasted dump map those onto the same seats. `/sources` does not invent a sixth Amazon report you do not have.
+
+## Composite source ids
+
+Some metrics need more than one export. In `reference/logic.md`, join ids with ` + ` (spaces around the plus):
+
+| Metric | Example source_id |
+|---|---|
+| TACOS | `sales + ads-campaigns` |
+| Cover + ads throttle | `inventory + ads-campaigns` |
+
+`/prove` counts a composite metric as "had data" only when **every** id is connected and readable.

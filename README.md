@@ -42,7 +42,9 @@ Skills (`SKILL.md`), agents (`.grok/agents/`), and `AGENTS.md` work in both envi
 |---|---|
 | [`template/README.md`](./template/README.md) | **Brand owner** — in the zip |
 | [`docs/INSTALL.md`](./docs/INSTALL.md) | **Brand owner** — Grok Bot install (Mac / Win / Linux) |
-| [`docs/GROK-BUILD-ADVANCED.md`](./docs/GROK-BUILD-ADVANCED.md) | Local CLI + launchd optional path |
+| [`docs/GTM.md`](./docs/GTM.md) | **Launch checklist**, sales bullets, bot roster decision |
+| [`docs/DRIVE-WALKTHROUGH.md`](./docs/DRIVE-WALKTHROUGH.md) | **Record once** — video script + screenshot beats |
+| [`docs/GROK-BUILD-ADVANCED.md`](./docs/GROK-BUILD-ADVANCED.md) | Local CLI optional path |
 | [`docs/EXPORTS.md`](./docs/EXPORTS.md) | Export catalog |
 | [`docs/WHAT-GOOD-LOOKS-LIKE.md`](./docs/WHAT-GOOD-LOOKS-LIKE.md) | Support bar (Northline Home) |
 | [`docs/QA.md`](./docs/QA.md) | Ship gate + pre-ship checklist |

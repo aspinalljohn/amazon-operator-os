@@ -46,9 +46,12 @@ def main() -> int:
         "template/reference/logic.md",
         "template/reference/how-to-refresh.md",
         "template/reference/delivery.md",
+        "template/reference/bot-roster.md",
         "docs/INSTALL.md",
         "docs/EXPORTS.md",
         "docs/GROK-BUILD-ADVANCED.md",
+        "docs/GTM.md",
+        "docs/DRIVE-WALKTHROUGH.md",
     ]:
         require(ROOT / rel)
     install_doc = ROOT / "docs" / "INSTALL.md"

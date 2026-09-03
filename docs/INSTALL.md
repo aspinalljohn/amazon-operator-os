@@ -52,7 +52,7 @@ You are signed in when you can open a Bot chat and see the computer status ready
 
 ## Step 3 — Create your six Bots
 
-In Grok Bot, create **six named Bots** (sidebar → create Bot). Suggested names:
+In Grok Bot, create **six named Bots** (sidebar → create Bot). **Use exact names** — see `reference/bot-roster.md` in your ops folder (or the template copy before deploy):
 
 | Bot name | Role |
 |---|---|
@@ -62,6 +62,10 @@ In Grok Bot, create **six named Bots** (sidebar → create Bot). Suggested names
 | **Inventory** | Cover / stockout risk |
 | **Customer** | Review intelligence |
 | **Creative** | Image-stack and A+ briefs (text only) |
+
+After deploy, enable skills per Bot (Settings → Plugins → Yours) as listed in `reference/bot-roster.md`.
+
+**Do not add a seventh Bot** (Finance, Competitor, etc.) for v1 — not in the kit.
 
 You will mostly talk to **Ops**. The others run when `/prove`, `/weekly`, or overnight needs their seat.
 

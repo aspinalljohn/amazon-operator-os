@@ -1,4 +1,4 @@
 # Amazon Operator OS buyers
 
-| date | email | github | zip sent | prove green | notes |
-|---|---|---|---|---|---|
+| date | email | github | zip sent | walkthrough sent | prove green | notes |
+|---|---|---|---|---|---|---|

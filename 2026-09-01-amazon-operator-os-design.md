@@ -11,7 +11,7 @@ This is the product spec for a self-serve Grok kit that puts six named agents in
 
 ## 1. Promise
 
-An Amazon brand owner with Grok CLI and an xAI account can, in one sitting:
+An Amazon brand owner with **Grok Bot** and an eligible Cursor/xAI plan can, in one sitting:
 
 1. Install the kit.
 2. Get a business folder at `~/Documents/<brand-slug>-ops/`.
@@ -49,10 +49,12 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 ## 3. Architecture
 
 ```
-Buyer machine
-├── Grok CLI (authenticated)
-├── Plugin: amazon-operator-os   (agents, skills, workflows)
-└── Business folder: ~/Documents/<brand>-ops/
+Buyer Grok Bot account
+├── Grok Bot desktop app (authenticated with Cursor)
+├── Cloud computer: /workspace/<brand>-ops/
+├── Six named Bots (Ops, Listing, Ads, Inventory, Customer, Creative)
+├── Plugin / vendored .grok/ (agents, skills)
+└── Business folder on cloud workspace
     ├── AGENTS.md                 (context every agent reads)
     ├── exports/                  (drop-only, never written by agents)
     ├── reference/
@@ -560,11 +562,11 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 ## 10. Buyer journey (90 minutes)
 
 1. Buy. Get email + Drive video + zip.
-2. Install Grok CLI, authenticate xAI (video).
-3. Unzip to `~/Documents/`, open Grok in the folder, `/operator-setup` (main agent interviews sources + logic in that sitting).
-4. Follow *their* refresh card (`reference/how-to-refresh.md`), not the full catalog.
-5. `/prove`. Read the six artifacts and the logic scoreboard. Add a missing source or drop that metric. Re-run.
-6. Optional: paste Slack webhook or mailer webhook, `/install-overnight`, noon dry-run.
+2. Install **Grok Bot** from [x.ai/bot](https://x.ai/bot), sign in with Cursor (video).
+3. Create six Bots; deploy kit to `/workspace/`; Ops → `/operator-setup`.
+4. Follow *their* refresh card (`reference/how-to-refresh.md`).
+5. `/prove`. Read six artifacts and scoreboard.
+6. Optional: `/install-overnight` Routine + `/overnight --now` test.
 
 Success email (auto or John): "Reply with the path to `reports/` if `/prove` is not 6/6."
 

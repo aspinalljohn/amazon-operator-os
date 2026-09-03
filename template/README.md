@@ -18,7 +18,7 @@ Full install steps (Mac, Windows, Linux): see **`docs/INSTALL.md`** in the kit r
 
 1. Install **Grok Bot** from [x.ai/bot](https://x.ai/bot) (Mac, Windows, or Linux).
 2. Sign in with your **Cursor** account.
-3. Create **six Bots** in the app: **Ops**, **Listing**, **Ads**, **Inventory**, **Customer**, **Creative**.
+3. Create **six Bots** using exact names in **`reference/bot-roster.md`** (Ops, Listing, Ads, Inventory, Customer, Creative).
 4. Copy this folder to `/workspace/<your-brand>-ops/` on the Agent Computer (Ops can help from chat).
 5. **Settings → Plugins → Yours** — enable the kit skills for each Bot.
 

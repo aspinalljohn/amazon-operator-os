@@ -19,11 +19,11 @@ If they cannot run skills from the business folder yet, print steps from `docs/I
 
 ## 0b. Create the Bot roster (first-time only)
 
-If they have not created the six Bots yet, tell them to create these in the Grok Bot sidebar before continuing:
+If they have not created the six Bots yet, tell them to follow `reference/bot-roster.md` (from the template — copy into the business folder if missing):
 
-Ops (this Bot), Listing, Ads, Inventory, Customer, Creative.
+Ops, Listing, Ads, Inventory, Customer, Creative — exact names.
 
-Enable kit skills per Bot under Settings → Plugins → Yours. Ops needs setup, prove, weekly, overnight; each specialist needs its seat skills.
+Enable kit skills per Bot under Settings → Plugins → Yours. Do not add extra Bots (Finance, Competitor, etc.) — not in v1.
 
 ## 1. Brand cluster (one at a time)
 
@@ -45,6 +45,7 @@ Copy the kit `template/` into that folder on the Agent Computer. Fill:
 - `reference/brand.md`
 - `reference/asins.md`
 - `reference/delivery.md` (webhook URL if they pasted one; otherwise method: none)
+- `reference/bot-roster.md` — from template if not present; confirm six Bot names match
 
 Tell them: "Message Ops in Grok Bot with this folder as home. All six Bots share `/workspace/` on the same computer."
 

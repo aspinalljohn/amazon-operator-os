@@ -32,7 +32,7 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 |---|---|---|
 | What this is | Sellable self-serve kit | Same muscle as Second Brain DIY Kit. Cohort and VS installs reuse the same repo later. |
 | Who | Amazon brand owner / operator | Not an agency pack, not a generic coding-agent starter. |
-| Runtime | Grok CLI + xAI account | Plugin, custom agents, overnight `grok -p`, workflows. Skill *bodies* stay portable `SKILL.md`. |
+| Runtime | **Grok Bot** desktop app + cloud `/workspace/` (default). Grok Build CLI optional for local dev. | Named Bots, skills, Routines. Skill bodies stay portable `SKILL.md`. `.rhai` workflows = CLI advanced only. |
 | Ship shape | Hybrid: Grok plugin + business-folder zip | Zip works offline like Second Brain. Plugin is the update channel. |
 | Roster | Full OS: Ops, Listing, Ads, Inventory, Customer, Creative | Buyer-locked. Creative in v1 is briefs only, no image gen. |
 | Data | Source registry, not five forced CSVs | Catalog of known Amazon reports exists. `/sources` maps what *they* have (csv / sheet / url / paste / mcp). No Amazon APIs in v1. |
@@ -42,7 +42,7 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 | Delivery | File always; Slack webhook or email/webhook optional | Opt-in during setup. Fail loud if delivery is configured and the post fails. |
 | Support | Install + green `/prove` + a logic file that looks like them | Not custom skill writing. Not Velocity client pipelines. |
 | Price (kit) | $997 | Second Brain is $500 (vault). This is the operating layer. Confirm at checkout build. |
-| Working folder | `~/Documents/<brand-slug>-ops/` | Predictable. Setup does not write into an existing vault. |
+| Working folder | `/workspace/<brand-slug>-ops/` on Grok Bot cloud computer (default). `~/Documents/<brand-slug>-ops/` for Grok Build CLI advanced. | Predictable. Setup does not write into an existing vault. |
 
 ---
 

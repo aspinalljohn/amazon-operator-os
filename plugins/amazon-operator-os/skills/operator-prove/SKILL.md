@@ -1,14 +1,12 @@
 ---
 name: operator-prove
-description: Smoke-test Amazon Operator OS on this folder's files. Fans out listing, ads, inventory, customer, and creative via weekly-ops, then prints a two-line scoreboard. Use when the user runs /prove or /prove --fixtures.
+description: Smoke-test Amazon Operator OS on this folder's files. On Grok Bot, Ops coordinates the six seats; on Grok Build CLI, fans out via weekly-ops workflow. Prints a two-line scoreboard. Use when the user runs /prove or /prove --fixtures.
 argument-hint: [--fixtures]
 ---
 
 # Operator prove
 
-Smoke test that the OS works on *their* files. Do not call `spawn_subagent`. Start the `weekly-ops` workflow (`mode: prove`). Specialists write the artifacts; you print the scoreboard after the run completes.
-
-Do not poll or sleep-wait. Launch the workflow and use the completion report.
+Smoke test that the OS works on *their* files.
 
 ## 0. Optional `--fixtures`
 
@@ -30,7 +28,7 @@ If logic.md is stamped `defaults-not-reviewed`, warn: "logic is still defaults �
 
 ## 2. Date and ASIN
 
-Pass the date in. Workflows cannot call `timestamp()`. Run `date +%F` and use that YYYY-MM-DD.
+Use today's date as YYYY-MM-DD (`date +%F` on the Agent Computer, or ask the operator if no shell).
 
 Listing and Creative share the prove ASIN:
 
@@ -38,25 +36,35 @@ Listing and Creative share the prove ASIN:
 2. Else the first ASIN in `reference/asins.md`.
 3. Else the first ASIN in the connected listings source.
 
-Pass that ASIN to the workflow when you have one.
-
 ## 3. Fan-out
+
+### Grok Bot (default)
+
+When running in **Grok Bot** (desktop app, business folder on `/workspace/`, no `weekly-ops` workflow tool):
+
+1. Run each specialist seat in order: listing, ads, inventory, customer, creative — using each seat's skill and agent definition.
+2. Prefer messaging `@Listing`, `@Ads`, `@Inventory`, `@Customer`, `@Creative` when those Bots exist; otherwise run each skill from Ops with the same READ_ORDER and artifact paths.
+3. Listing and Creative share the prove ASIN from step 2.
+4. After specialist artifacts exist (or failed honestly), run `weekly-operator-report` and write `reports/weekly-report-YYYY-MM-DD.md`.
+5. Do not invent numbers. Do not edit `exports/`.
+
+### Grok Build CLI (when workflow tool is available)
 
 Start workflow `weekly-ops`:
 
 - Prefer `name: "weekly-ops"` or `script_path` `.grok/workflows/weekly-ops.rhai`
-- If the host refuses the path for folder trust, pass `script` as the contents of `.grok/workflows/weekly-ops.rhai` (inline) with the same args
+- If the host refuses the path for folder trust, pass `script` inline with the same args
 - `args.mode`: `prove`
-- `args.date`: the YYYY-MM-DD from step 2
-- `args.asin`: the prove ASIN when known
+- `args.date`: YYYY-MM-DD from step 2
+- `args.asin`: prove ASIN when known
 - `agent_budget`: 8
 - `validate_only`: false
 
-Do not spawn listing/ads/inventory/customer/creative yourself. The workflow Phase 1 runs those five in `parallel()` with `capability_mode: "read-write"`. Phase 2 ops writes `reports/weekly-report-YYYY-MM-DD.md`.
+Do not spawn specialists yourself outside the workflow. Do not poll or sleep-wait — use the completion report when the tool returns.
 
 ## 4. Scoreboard
 
-After the workflow completes, check disk. A file full of `(not in the data)` still counts as shipped.
+After fan-out completes, check disk. A file full of `(not in the data)` still counts as shipped.
 
 The six artifacts:
 
@@ -87,6 +95,6 @@ For each watch metric, resolve `source_id`:
 
 `K` is how many watch metrics pass that test. Name each failing metric as `<metric> = no source.` If every watch metric had data, omit the metric list.
 
-`/prove` **passes** if all six files exist on disk. It does **not** fail because a watch metric lacks a source — that is the second line, so they can add a source or drop the metric.
+`/prove` **passes** if all six files exist on disk. It does **not** fail because a watch metric lacks a source.
 
-Do not fail the run because a watch metric lacks a source. Do not invent numbers. Do not edit `exports/`.
+Do not invent numbers. Do not edit `exports/`.

@@ -4,14 +4,13 @@ v1 does not ship if a row in the results table is **fail**. Live grok is optiona
 
 ## Pre-ship live checklist (required once per release)
 
-On a Mac with `grok` installed and authenticated:
+On a machine with **Grok Bot** installed, signed in, and six Bots created:
 
-1. Fresh folder: `cp -R template /tmp/northline-live && bash scripts/load-fixtures.sh /tmp/northline-live && cd /tmp/northline-live`
-2. Interactive `/prove` → six artifacts, TACOS north star, scoreboard two lines
-3. `/overnight --now` → morning brief + log; default fixtures spawn inventory + ads (cap 2)
-4. Optional: delivery 404 row (webhook to invalid URL)
+1. Deploy `template/` to `/workspace/northline-live/` on the Agent Computer; `bash scripts/load-fixtures.sh` that path (from cloud shell or Ops Bot).
+2. Ops → `/prove` → six artifacts, TACOS north star, scoreboard two lines.
+3. `/install-overnight` → Routine; `/overnight --now` → morning brief (default fixtures: inventory + ads, cap 2).
 
-Record results in the table below before selling. Do not ship on pack-only passes if live `/prove` hits max-turns before Phase 2 completes.
+Optional CLI regression: repeat prove with Grok Build on `/tmp/northline-ops` using `weekly-ops.rhai` — see `docs/GROK-BUILD-ADVANCED.md`.
 
 Internal fixtures: anonymized Northline Home (6 child ASINs, 14-day sales, 2 SP campaigns, mixed cover, 40 reviews, listing markdown). North star is TACOS, not ACOS. No live Amazon account required.
 

@@ -19,13 +19,14 @@ Do not start custom skill work. Do not log into Seller Central for them.
 
 One sitting. Camera on the kit folder, not a sales deck.
 
-1. **Grok install** — macOS/Linux: `curl -fsSL https://x.ai/cli/install.sh | bash`, then `grok --version`, then `grok login` (or `XAI_API_KEY` from console.x.ai). Point at `docs/INSTALL.md`.
-2. **Unzip** `amazon-operator-os.zip` to `~/Documents/` (or let `/operator-setup` copy `template/` to `~/Documents/<brand-slug>-ops/`). `cd` into the business folder. Open Grok there. Skills/agents are already under `.grok/` in the zip; plugin install is optional for updates.
-3. **`/operator-setup` interview** — parent session only. Brand, sources, and logic in that same sitting. Do not send them to `/sources` and `/logic` as homework. If they skip logic, the file is stamped `defaults-not-reviewed` and they will see a generic dashboard until they run `/logic`.
-4. **Drop one of their files** — follow the generated `reference/how-to-refresh.md`, not the full catalog in `docs/EXPORTS.md`. Newest file in the bucket wins. One real export is enough to see the path; they can add the rest after `/prove`.
-5. **`/prove`** — six dated artifacts under `reports/` plus the two-line scoreboard. Missing data is `(not in the data)`. A watch metric with no source is named on line two; that does not fail `/prove`. Compare against `docs/WHAT-GOOD-LOOKS-LIKE.md` (Northline Home, TACOS north star).
+1. **Grok Bot install** — download from [x.ai/bot](https://x.ai/bot) (macOS / Windows / Linux), sign in with Cursor. Point at `docs/INSTALL.md`. **Do not** send buyers to Grok CLI unless they chose `docs/GROK-BUILD-ADVANCED.md`.
+2. **Create six Bots** — Ops, Listing, Ads, Inventory, Customer, Creative. Enable kit skills under Settings → Plugins.
+3. **Deploy kit** — unzip to `/workspace/<brand-slug>-ops/` on the Agent Computer (skills under `.grok/`). Plugin marketplace is optional.
+4. **`/operator-setup` interview** — parent session only with Ops. Brand, sources, and logic in that same sitting. Do not send them to `/sources` and `/logic` as homework.
+5. **Drop exports** — follow `reference/how-to-refresh.md`. One real export is enough to see the path.
+6. **`/prove`** — six artifacts under `reports/` plus scoreboard. Compare to `docs/WHAT-GOOD-LOOKS-LIKE.md`.
 
-Overnight is optional and last. Only after `/prove` is 6/6. `/install-overnight`, then noon dry-run `/overnight --now`. Windows overnight is out of v1 (`out of v1, run /weekly manually.`). Mac that sleeps will miss 5am.
+Overnight is optional: `/install-overnight` creates a **Grok Bot Routine** (cloud, laptop can sleep). Test with `/overnight --now`. For launchd + CLI, see advanced doc only.
 
 ## Email the zip
 
@@ -33,14 +34,14 @@ From: **john@goaspi.com**
 
 Attachment: `dist/amazon-operator-os.zip` built with `bash scripts/build-zip.sh` (syncs `template/.grok/` from the plugin, then zips `template/`).
 
-Also attach or link: `docs/INSTALL.md`. Catalog is `docs/EXPORTS.md` inside the repo; the zip's live list is the refresh card setup writes.
+Also attach or link: `docs/INSTALL.md` (Grok Bot app). Optional: `docs/GROK-BUILD-ADVANCED.md` for CLI power users only.
 
 Subject line can be short: `Amazon Operator OS — zip + walkthrough`.
 
 Body, keep it this thin:
 
 - Drive walkthrough link.
-- Unzip, open Grok in the folder, `/operator-setup`, drop a file, `/prove`.
+- Unzip, create six Grok Bots, deploy to `/workspace/…`, Ops → `/operator-setup`, drop a file, `/prove`.
 - Reply with the path to `reports/` if `/prove` is not 6/6.
 - If they have a GitHub username, they will get an invite to `aspinalljohn/amazon-operator-os`.
 

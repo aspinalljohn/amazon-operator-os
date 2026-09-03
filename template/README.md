@@ -1,185 +1,153 @@
 # Amazon Operator OS — your brand operating folder
 
-You bought a **six-agent operator kit** for your Amazon brand. Grok reads your Seller Central exports, applies **your** metrics and rules, and writes dated reports into this folder. It does not log into Amazon or change live listings or ads.
+You run this kit on **[Grok Bot](https://x.ai/bot)** — the desktop app where AI teammates work on a **cloud computer** that stays on when your laptop is closed. You do **not** need to install Grok CLI.
 
-Read this file top to bottom once. After setup, your daily list is in `reference/how-to-refresh.md`.
+This folder lives on that cloud computer at:
+
+```text
+/workspace/<your-brand>-ops/
+```
+
+Six Bots read your Amazon exports, apply **your** rules, and write reports here. They do not log into Seller Central for you or change live listings or ads.
+
+Full install steps (Mac, Windows, Linux): see **`docs/INSTALL.md`** in the kit repo or your purchase email.
+
+---
+
+## Before you start
+
+1. Install **Grok Bot** from [x.ai/bot](https://x.ai/bot) (Mac, Windows, or Linux).
+2. Sign in with your **Cursor** account.
+3. Create **six Bots** in the app: **Ops**, **Listing**, **Ads**, **Inventory**, **Customer**, **Creative**.
+4. Copy this folder to `/workspace/<your-brand>-ops/` on the Agent Computer (Ops can help from chat).
+5. **Settings → Plugins → Yours** — enable the kit skills for each Bot.
 
 ---
 
 ## What you get
 
-Six specialists, one folder:
-
-| Agent | What it writes |
+| Bot | What it writes |
 |---|---|
 | **Ops** | Weekly report + morning brief |
 | **Listing** | Listing audit for one ASIN |
-| **Ads** | PPC exception brief (flags, not bid changes) |
+| **Ads** | PPC exception brief (flags only — no bid changes) |
 | **Inventory** | Cover / stockout risk |
 | **Customer** | Review themes + reply drafts |
-| **Creative** | Image-stack and A+ briefs (no image generation) |
+| **Creative** | Image-stack and A+ briefs (text only, no image gen) |
 
-Your rules live in two files you own:
+Your rules live in two files:
 
 - `reference/sources.md` — what data you have and where it lives
-- `reference/logic.md` — metrics you watch, flags, exceptions, what the brief must include
+- `reference/logic.md` — metrics, flags, exceptions, brief contents
 
-Agents read those files first. They never invent numbers — missing data is written as `(not in the data)`.
-
----
-
-## Step-by-step setup
-
-### Step 1 — Install Grok (pick your computer)
-
-**Mac** — Terminal:
-
-```bash
-curl -fsSL https://x.ai/cli/install.sh | bash
-grok login
-```
-
-**Linux** — same as Mac.
-
-**Windows** — PowerShell:
-
-```powershell
-irm https://x.ai/cli/install.ps1 | iex
-grok login
-```
-
-Close and reopen the terminal if `grok` is not found. You need an [xAI account](https://console.x.ai).
-
-Full platform notes: see `docs/INSTALL.md` in the kit repo, or the install PDF/video from your purchase email.
+Agents read those first. Missing numbers are written as `(not in the data)` — never invented.
 
 ---
 
-### Step 2 — Open this folder in Grok
+## Step-by-step (first day)
 
-```bash
-cd path/to/your-brand-ops
-grok
-```
+### 1. Open Ops and run setup
 
-If setup has not run yet, unzip the kit and `cd` into it first. After setup, work from `~/Documents/<your-brand>-ops/` (Mac/Linux) or `Documents\<your-brand>-ops\` (Windows).
-
----
-
-### Step 3 — Run setup (one conversation)
-
-Type:
+In the **Ops** Bot chat, type `/` and choose **operator-setup**:
 
 ```text
 /operator-setup
 ```
 
-Answer in plain language:
+Answer in **one conversation**:
 
-1. Brand name, what you sell, optional hero ASINs
-2. What reports you already look at and where they live
-3. What numbers matter, when you want to be woken up, and what a generic dashboard would get wrong
+- Brand name, what you sell, optional hero ASINs
+- Which reports you already pull (Business Report, ads, inventory, etc.)
+- What you watch (TACOS? cover days?), what should wake you up, launch ASIN exceptions
 
-Setup writes `reference/sources.md`, `reference/logic.md`, and `reference/how-to-refresh.md`. **Do not skip this** — it is how the kit learns your TACOS vs ACOS, launch ASINs, cover days, etc.
+Ops writes `reference/sources.md`, `reference/logic.md`, and `reference/how-to-refresh.md`.
 
----
+### 2. Drop your exports
 
-### Step 4 — Drop your exports
+Put CSVs (or pasted reviews) in `exports/` — see **`reference/how-to-refresh.md`** for your list only:
 
-Open `reference/how-to-refresh.md`. Export only what you connected — not every Amazon report in the catalog.
-
-Put files here (newest wins in each folder):
-
-```
-exports/sales/       ← Business Report CSV
-exports/ads/         ← Campaign + search term CSVs
-exports/inventory/   ← FBA inventory CSV
-exports/reviews/     ← Reviews CSV or pasted markdown
+```text
+exports/sales/       ← Business Report
+exports/ads/         ← Campaign + search term reports
+exports/inventory/   ← FBA inventory
+exports/reviews/     ← Helium10 or paste (no clean SC export)
 exports/listings/    ← Listing pack or catalog
 ```
 
-**Never edit files in `exports/` from the agents** — they are read-only. Re-export from Seller Central (or Helium10) and drop the new file.
+Upload from your computer or save from Seller Central using the Bot’s browser. **Agents never edit `exports/`** — re-export and drop a new file.
 
----
+### 3. Prove it works
 
-### Step 5 — Prove it works
+In **Ops**:
 
 ```text
 /prove
 ```
 
-You should see **six files** in `reports/` and a two-line scoreboard:
+You want **six files** in `reports/` and a scoreboard like:
 
-```
+```text
 Artifacts: 6/6
-Logic: K of M watch metrics had data. ...
+Logic: 4 of 4 watch metrics had data.
 ```
 
-`/prove` passes when all six files exist. Empty sections with `(not in the data)` still count — add the missing export or remove that metric from `logic.md`.
+Empty sections with `(not in the data)` still count. Fix missing exports or edit `logic.md`.
 
-Compare your weekly report to the Northline Home example in support docs if you are unsure.
+### 4. Run weekly
 
----
-
-### Step 6 — Run weekly (your operating rhythm)
-
-After a green prove:
+After a green prove, refresh exports and run:
 
 ```text
 /weekly
 ```
 
-Refresh exports first. Same six artifacts, dated for this week.
+Plan for **weekly** runs — each prove/weekly uses meaningful AI usage.
 
-**Cost note:** each `/prove` or `/weekly` runs multiple AI jobs. Plan for weekly runs, not dozens per day.
+### 5. Morning brief (optional)
 
----
-
-### Step 7 — Morning brief (optional, Mac only)
-
-Only after `/prove` is 6/6:
+After `/prove` is 6/6, in **Ops**:
 
 ```text
 /install-overnight
 /overnight --now
 ```
 
-If the dry-run looks good, you get a 5am brief on days your Mac is awake. **Windows and Linux:** run `/weekly` manually instead (overnight scheduler is Mac-only in v1).
+This creates a **Routine** on the cloud computer (e.g. 5am weekdays). Your laptop can be off. Manage under Ops → **Routines**.
 
 ---
 
 ## Folder map
 
-```
-your-brand-ops/
+```text
+/workspace/<your-brand>-ops/
 ├── README.md              ← this file
-├── AGENTS.md              ← voice and rules every agent reads
-├── exports/               ← YOU drop CSVs here (read-only for agents)
+├── AGENTS.md              ← every Bot reads this first
+├── exports/               ← YOU drop CSVs (read-only for Bots)
 ├── reference/
 │   ├── sources.md         ← your data wiring
 │   ├── logic.md           ← your metrics and flags
-│   ├── how-to-refresh.md  ← your personal export checklist
+│   ├── how-to-refresh.md  ← your export checklist
 │   ├── brand.md, asins.md, delivery.md
 ├── reports/               ← finished artifacts (dated)
 ├── drafts/                ← review reply drafts
-├── logs/                  ← overnight run logs
-└── bin/overnight.sh       ← Mac overnight wrapper (optional)
+└── logs/                  ← overnight logs (if used)
 ```
 
 ---
 
-## Commands you will use
+## Commands
 
-| Command | Purpose |
-|---|---|
-| `/operator-setup` | First-time setup |
-| `/prove` | Test all six agents on your files |
-| `/weekly` | Weekly operating run |
-| `/sources` | Add Helium10, a new report, or change paths |
-| `/logic` | Change TACOS target, cover days, brief rules |
-| `/install-overnight` | Mac: schedule 5am brief |
-| `/overnight --now` | Test overnight before trusting 5am |
+| Type `/…` | Bot | Purpose |
+|---|---|---|
+| `operator-setup` | Ops | First-run interview |
+| `prove` | Ops | Test all six seats |
+| `weekly` | Ops | Weekly operating run |
+| `sources` | Ops | Add or change exports later |
+| `logic` | Ops | Change TACOS, cover, brief rules |
+| `install-overnight` | Ops | Schedule morning Routine |
+| `overnight --now` | Ops | Test overnight once |
 
-Talk to Ops in normal English too: "Should I keep spending on the hero SKU?" Ops can route to Ads or Inventory.
+Message **@Listing**, **@Ads**, etc. for one seat on demand.
 
 ---
 
@@ -187,26 +155,32 @@ Talk to Ops in normal English too: "Should I keep spending on the hero SKU?" Ops
 
 | Symptom | Fix |
 |---|---|
-| Generic ACOS dashboard | Run `/logic` — you may still have `defaults-not-reviewed` |
-| `(not in the data)` everywhere | Drop the CSV or fix `reference/sources.md` status to connected |
-| Scoreboard says `TACOS = no source` | Connect both sales and ads exports (TACOS needs both) |
-| Wrong columns error | Re-export the report named in the error; see export catalog |
-| Overnight missed | Mac was asleep — disable sleep or run `/weekly` by hand |
-| Windows overnight | Not in v1 — use `/weekly` on a schedule you choose |
+| Instructions say install Grok CLI | Ignore for Grok Bot — use [x.ai/bot](https://x.ai/bot). CLI is optional advanced only. |
+| Skill missing from `/` menu | Settings → Plugins → Yours → enable for this Bot |
+| Generic ACOS dashboard | Run `/logic` — may still be `defaults-not-reviewed` |
+| `(not in the data)` everywhere | Drop CSVs or set sources to `connected` in `reference/sources.md` |
+| `TACOS = no source` | Need **both** sales and ads files (TACOS = spend ÷ sales) |
+| Routine missed | Ops → Routines → check paused/failed; refresh daily exports first |
 
 ---
 
 ## What this kit does not do
 
-- Log into Seller Central or Amazon Ads
+- Auto-pull Seller Central without you exporting or using the Bot browser
 - Change bids, prices, or catalog live
 - Generate product images
-- Replace your judgment on replenishment or ad spend
+- Replace your judgment on spend or replenishment
 
-It **surfaces** exceptions using your rules so you decide faster.
+It surfaces exceptions using **your** rules so you decide faster.
 
 ---
 
-## Need help?
+## Advanced: local Mac + Grok CLI
 
-Reply to your purchase email with the path to `reports/` and your scoreboard lines. Support gets you to a green `/prove` and a `logic.md` that sounds like you — not custom skill rewrites.
+Power users who want a folder on `~/Documents/` and macOS launchd instead of Grok Bot Routines: see **`docs/GROK-BUILD-ADVANCED.md`**. Not the default buyer path.
+
+---
+
+## Help
+
+Reply to your purchase email with your scoreboard lines and the path to `reports/`. Support gets you to a green `/prove` and a `logic.md` that sounds like you.

@@ -48,8 +48,17 @@ def main() -> int:
         "template/reference/delivery.md",
         "docs/INSTALL.md",
         "docs/EXPORTS.md",
+        "docs/GROK-BUILD-ADVANCED.md",
     ]:
         require(ROOT / rel)
+    install_doc = ROOT / "docs" / "INSTALL.md"
+    if install_doc.exists() and "Grok Bot" not in install_doc.read_text():
+        fail("docs/INSTALL.md must describe Grok Bot app install, not CLI-only")
+    buyer_readme = TEMPLATE / "README.md"
+    if buyer_readme.exists() and "Grok CLI" in buyer_readme.read_text():
+        low = buyer_readme.read_text().lower()
+        if "do not" not in low and "not need" not in low and "ignore" not in low:
+            fail("template/README.md must not tell buyers to install Grok CLI without negation")
     sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
     if "# Sources" not in sources:
         fail("template/reference/sources.md must start with a # Sources heading")
@@ -63,6 +72,8 @@ def main() -> int:
             text = p.read_text()
             if name == "operator-setup" and "spawn_subagent" not in text:
                 fail("operator-setup must explicitly forbid spawn_subagent")
+            if name == "operator-setup" and "Grok Bot" not in text:
+                fail("operator-setup must describe Grok Bot as default runtime")
             if "parent session" not in text.lower() and "parent/ops" not in text.lower() and "PARENT" not in text:
                 fail(f"{name} must say it runs in the parent session")
     import csv
@@ -224,12 +235,13 @@ def main() -> int:
     overnight_cmd = PLUGIN / "commands" / "overnight.md"
     if overnight_cmd.exists():
         oc = overnight_cmd.read_text()
-        if "bin/overnight.sh" not in oc:
-            fail("overnight.md --now must run bin/overnight.sh")
-        if "do not exec" in oc.lower():
-            fail("overnight.md must not forbid exec of the wrapper")
+        if "overnight-ops" not in oc:
+            fail("overnight.md must reference overnight-ops skill")
         if "agent_budget 8" not in oc:
             fail("overnight.md missing agent_budget 8")
+    install_skill = PLUGIN / "skills" / "install-overnight" / "SKILL.md"
+    if install_skill.exists() and "Routine" not in install_skill.read_text():
+        fail("install-overnight must describe Grok Bot Routine path")
     oskill = PLUGIN / "skills" / "overnight-ops" / "SKILL.md"
     if oskill.exists() and "`agent_budget`: 8" not in oskill.read_text() and "agent_budget` 8" not in oskill.read_text() and "agent_budget 8" not in oskill.read_text():
         fail("overnight-ops skill missing agent_budget 8")

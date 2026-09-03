@@ -1,27 +1,38 @@
 # Amazon Operator OS
 
-Private kit repo for **Operator Intelligence**: a Grok plugin plus business-folder template that puts six named agents into an Amazon brand owner's workflow.
+Private kit repo for **Operator Intelligence**: six named operators for Amazon brand owners, built for **[Grok Bot](https://docs.x.ai/grok-bot/overview)** (desktop app + cloud computer).
 
-**Buyers:** use the zip or your `~/Documents/<brand>-ops/` folder. Start with [`template/README.md`](./template/README.md) (included in the zip) or [`docs/INSTALL.md`](./docs/INSTALL.md).
+**Buyers start here:** [`template/README.md`](./template/README.md) (in the zip) and [`docs/INSTALL.md`](./docs/INSTALL.md) (Mac / Windows / Linux).
 
-**Maintainers:** this README is the repo walkthrough. Build, test, and ship from here.
+**Power users / kit development:** [`docs/GROK-BUILD-ADVANCED.md`](./docs/GROK-BUILD-ADVANCED.md) — local folder, Grok Build CLI, `.rhai` workflows, launchd.
 
 ---
 
-## What this repo is
+## Grok Bot vs Grok Build (important)
 
-| Piece | Path | Purpose |
+| | **Grok Bot** (what we sell) | **Grok Build CLI** (advanced) |
 |---|---|---|
-| Grok plugin | `plugins/amazon-operator-os/` | Agents, skills, workflows, slash commands |
-| Business template | `template/` | What `/operator-setup` copies to the buyer's ops folder |
-| Fixtures | `fixtures/` | Anonymized Northline Home CSVs for QA |
-| Pack tests | `tests/kit_check.py` | Invariants — run before every commit |
-| Buyer docs | `docs/` | Install, exports catalog, QA, delivery SOP |
+| Product | Desktop app — [x.ai/bot](https://x.ai/bot) | Terminal `grok` command |
+| Sign in | Cursor account in app | `grok login` / API key |
+| Workspace | `/workspace/<brand>-ops/` on cloud VM | `~/Documents/<brand>-ops/` local |
+| Six seats | Six named **Bots** in the app | Agent types + workflows |
+| `/prove` fan-out | Ops `@` specialists or sequential skills | `weekly-ops.rhai` workflow |
+| Overnight | **Routine** on Ops Bot (cloud, 24/7) | `bin/overnight.sh` + launchd (Mac) |
+| Buyer installs CLI? | **No** | Only if they choose advanced path |
 
-One repo, two install paths:
+Skills (`SKILL.md`), agents (`.grok/agents/`), and `AGENTS.md` work in both environments. **Do not tell brand owners to install Grok CLI** unless they explicitly want the advanced doc.
 
-1. **Zip (default)** — `bash scripts/build-zip.sh` → `dist/amazon-operator-os.zip`. Buyer unzips; `.grok/` is already vendored under `template/.grok/`.
-2. **Plugin (updates)** — `grok plugin marketplace add …` then `grok plugin install amazon-operator-os --trust`. Setup still writes the business folder.
+---
+
+## Repo layout
+
+| Path | Purpose |
+|---|---|
+| `plugins/amazon-operator-os/` | Plugin source — agents, skills, workflows, commands |
+| `template/` | Business folder copied to `/workspace/<brand>-ops/` |
+| `fixtures/` | Northline Home anonymized CSVs for QA |
+| `tests/kit_check.py` | Pack invariants |
+| `docs/` | Install, exports, QA, delivery, advanced CLI |
 
 ---
 
@@ -29,14 +40,14 @@ One repo, two install paths:
 
 | Doc | Audience |
 |---|---|
-| [`template/README.md`](./template/README.md) | **Brand owner** — plain-language setup in the zip |
-| [`docs/INSTALL.md`](./docs/INSTALL.md) | **Brand owner** — Mac / Linux / Windows install |
-| [`docs/EXPORTS.md`](./docs/EXPORTS.md) | Export catalog (not the buyer's live refresh list) |
-| [`docs/WHAT-GOOD-LOOKS-LIKE.md`](./docs/WHAT-GOOD-LOOKS-LIKE.md) | Support bar — filled Northline Home example |
-| [`docs/QA.md`](./docs/QA.md) | Ship gate matrix + pre-ship live checklist |
-| [`docs/DELIVER.md`](./docs/DELIVER.md) | John's fulfillment SOP |
+| [`template/README.md`](./template/README.md) | **Brand owner** — in the zip |
+| [`docs/INSTALL.md`](./docs/INSTALL.md) | **Brand owner** — Grok Bot install (Mac / Win / Linux) |
+| [`docs/GROK-BUILD-ADVANCED.md`](./docs/GROK-BUILD-ADVANCED.md) | Local CLI + launchd optional path |
+| [`docs/EXPORTS.md`](./docs/EXPORTS.md) | Export catalog |
+| [`docs/WHAT-GOOD-LOOKS-LIKE.md`](./docs/WHAT-GOOD-LOOKS-LIKE.md) | Support bar (Northline Home) |
+| [`docs/QA.md`](./docs/QA.md) | Ship gate + pre-ship checklist |
+| [`docs/DELIVER.md`](./docs/DELIVER.md) | Fulfillment SOP |
 | [`2026-09-01-amazon-operator-os-design.md`](./2026-09-01-amazon-operator-os-design.md) | Product spec |
-| [`2026-09-01-amazon-operator-os-implementation-plan.md`](./2026-09-01-amazon-operator-os-implementation-plan.md) | Build plan |
 
 ---
 
@@ -47,140 +58,102 @@ One repo, two install paths:
 ```bash
 git clone git@github.com:aspinalljohn/amazon-operator-os.git
 cd amazon-operator-os
-python3 tests/kit_check.py    # must print: ok
+python3 tests/kit_check.py   # → ok
 ```
 
 ### 2. Edit plugin source
 
-Change agents, skills, or workflows under `plugins/amazon-operator-os/`:
-
 ```
 plugins/amazon-operator-os/
-  agents/          ops, listing, ads, inventory, customer, creative
-  skills/          generic procedures (SKILL.md per skill)
-  workflows/       weekly-ops.rhai, overnight-ops.rhai
-  commands/        slash command wrappers
-  personas/        operator.toml
+  agents/       ops, listing, ads, inventory, customer, creative
+  skills/       SKILL.md procedures
+  workflows/    weekly-ops.rhai, overnight-ops.rhai (Grok Build CLI)
+  commands/     slash wrappers
 ```
 
-Every agent file must contain:
+Every agent file must include:
 
 ```text
 READ_ORDER: AGENTS.md then sources.md then logic.md
 ```
 
-Buyer-specific numbers live only in `template/reference/` stubs — never in skills.
+Buyer-specific numbers belong only in `reference/sources.md` and `reference/logic.md` — never in skills.
 
-### 3. Sync template
-
-After plugin changes, vendoring into the zip template:
+### 3. Sync into the zip template
 
 ```bash
 bash scripts/sync-template-grok.sh
 ```
 
-This copies `agents/`, `skills/`, `personas/`, `workflows/` → `template/.grok/`.
+Copies plugin → `template/.grok/`.
 
-### 4. Run pack checks
+### 4. Test
 
 ```bash
 python3 tests/kit_check.py
-```
-
-Optional:
-
-```bash
-grok plugin validate plugins/amazon-operator-os
-bash -n template/bin/overnight.sh
-```
-
-### 5. Integration test with fixtures
-
-```bash
-rm -rf /tmp/northline-ops
-mkdir -p /tmp/northline-ops
-cp -R template/. /tmp/northline-ops/
 bash scripts/load-fixtures.sh /tmp/northline-ops
-cd /tmp/northline-ops
-grok    # interactive: /prove
+cp -R template/. /tmp/northline-ops/
 ```
 
-Expect six files under `reports/`. Weekly north star must be **TACOS**, not generic ACOS 35%.
+**Grok Bot (buyer path):** deploy `/tmp/northline-ops` to a test cloud `/workspace/…`, create six Bots, run `/prove` in Ops.
 
-See [`docs/QA.md`](./docs/QA.md) for the full matrix and **pre-ship live checklist** (required once per release on a Mac with grok).
+**Grok Build CLI (dev path):** `cd /tmp/northline-ops && grok` → `/prove` with workflow.
 
-### 6. Build the buyer zip
+See [`docs/QA.md`](./docs/QA.md) pre-ship checklist.
+
+### 5. Ship zip
 
 ```bash
-bash scripts/build-zip.sh
-# → dist/amazon-operator-os.zip
+bash scripts/build-zip.sh   # → dist/amazon-operator-os.zip
 ```
 
-Email that zip per [`docs/DELIVER.md`](./docs/DELIVER.md). Log buyers in `amazon-operator-os-buyers-log.md`.
+Fulfillment: [`docs/DELIVER.md`](./docs/DELIVER.md).
 
 ---
 
-## Step-by-step: buyer journey (what you ship)
+## Step-by-step: buyer journey (Grok Bot)
 
-1. Buyer installs Grok — platform steps in [`docs/INSTALL.md`](./docs/INSTALL.md) (Mac / Linux / Windows).
-2. Buyer unzips to `Documents/` and opens Grok in the folder.
-3. Buyer runs **`/operator-setup`** — one interview for brand, sources, and logic.
-4. Buyer drops exports per **`reference/how-to-refresh.md`**.
-5. Buyer runs **`/prove`** — six artifacts + scoreboard.
-6. Optional (Mac): **`/install-overnight`** then **`/overnight --now`**.
-
-Slash commands shipped:
-
-| Command | File |
-|---|---|
-| `/operator-setup` | `commands/operator-setup.md` |
-| `/prove` | `commands/prove.md` |
-| `/weekly` | `commands/weekly.md` |
-| `/sources` | `commands/sources.md` |
-| `/logic` | `commands/logic.md` |
-| `/install-overnight` | `commands/install-overnight.md` |
-| `/overnight` | `commands/overnight.md` |
+1. Install **Grok Bot** from [x.ai/bot](https://x.ai/bot) — Mac, Windows, or Linux.
+2. Sign in with Cursor; wait for Agent Computer ready.
+3. Create six Bots: Ops, Listing, Ads, Inventory, Customer, Creative.
+4. Unzip kit → `/workspace/<brand>-ops/` on cloud computer; enable skills per Bot.
+5. **Ops** → `/operator-setup` (brand + sources + logic in one chat).
+6. Drop exports per `reference/how-to-refresh.md`.
+7. **Ops** → `/prove` → six artifacts in `reports/`.
+8. Optional: `/install-overnight` → Routine (cloud scheduler).
 
 ---
 
-## Architecture (short)
+## Architecture
 
+```text
+Grok Bot (buyer)
+├── Desktop app (thin client)
+├── Cloud computer (/workspace)
+│   └── <brand>-ops/
+│       ├── exports/     ← buyer CSVs
+│       ├── reference/   ← sources.md + logic.md
+│       ├── reports/     ← artifacts
+│       └── .grok/       ← skills + agents from kit
+└── Six named Bots (Ops routes; specialists run seats)
 ```
-Buyer machine
-├── Grok CLI + xAI account
-├── Plugin or vendored .grok/ in business folder
-└── ~/Documents/<brand>-ops/
-    ├── exports/      ← buyer drops CSVs (read-only for agents)
-    ├── reference/    ← sources.md + logic.md (buyer rules)
-    └── reports/      ← agent outputs
-```
-
-Personalization = **`reference/sources.md`** + **`reference/logic.md`**. Skills stay generic. Parent session only for setup/sources/logic — no subagent interviews.
-
-Overnight: Ops checks daily sources, fans out **max 2** flagged specialists (inventory / ads / customer). Never listing or creative. Mac launchd via `bin/overnight.sh`.
 
 ---
 
-## Key scripts
+## Scripts
 
 | Script | Use |
 |---|---|
 | `scripts/sync-template-grok.sh` | Plugin → `template/.grok/` |
-| `scripts/load-fixtures.sh <ops-folder>` | Copy Northline Home fixtures for `/prove --fixtures` |
-| `scripts/build-zip.sh` | Produce `dist/amazon-operator-os.zip` |
-| `tests/kit_check.py` | Pack invariants |
+| `scripts/load-fixtures.sh <dir>` | Northline fixtures for prove |
+| `scripts/build-zip.sh` | `dist/amazon-operator-os.zip` |
+| `tests/kit_check.py` | Invariants |
 
 ---
 
 ## Commit checklist
 
 - [ ] `python3 tests/kit_check.py` → ok
-- [ ] `bash scripts/sync-template-grok.sh` if plugin changed
-- [ ] No client IP (Wood Defender, Velocity paths) in skills
-- [ ] Live `/prove` on fixtures if changing workflows (see QA pre-ship checklist)
-
----
-
-## License / IP
-
-Operator-generic skills only. Private repo. Do not ship buyer webhook URLs, xAI keys, or Seller Central credentials in commits.
+- [ ] `bash scripts/sync-template-grok.sh` after plugin edits
+- [ ] Buyer docs say **Grok Bot app**, not CLI install
+- [ ] Pre-ship live `/prove` on Grok Bot (see QA.md)

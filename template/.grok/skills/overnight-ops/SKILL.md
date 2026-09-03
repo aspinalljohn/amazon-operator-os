@@ -20,21 +20,34 @@ Overnight may spawn max 2 flagged specialists. Never listing or creative. Priori
 
 Gather/check is cheap; judgment on flags is the same model in v1. Do not expose a model-router UI.
 
-## 0. Parent / wrapper / `/overnight`
+## 0. Grok Bot vs CLI entry
 
-If the operator typed `/overnight --now` in an interactive session: run `bash bin/overnight.sh` and wait. That is the noon dry-run of 5am. Do not start the overnight-ops workflow in this session — that skips `--always-approve`, cwd, allow/deny, and `logs/overnight-YYYY-MM-DD.log`.
+**Grok Bot (default):** Run this skill directly when `/overnight --now` is invoked, or when a **Routine** fires. Work on `/workspace/<brand>-ops/`. Do not tell the operator to install Grok CLI. Do not run `bin/overnight.sh` unless they explicitly use the Grok Build advanced path.
 
-If this session is already the launchd wrapper (`bin/overnight.sh` / grok `--always-approve --max-turns 40`): do not call `spawn_subagent`. Start the `overnight-ops` workflow.
+**Grok Build CLI (advanced):** If `/overnight --now` in a local Mac folder and `bin/overnight.sh` exists, the operator may run that wrapper (launchd dry-run). That wrapper invokes Grok CLI with `--always-approve`. Then start the `overnight-ops` workflow if the workflow tool is available.
+
+### Workflow path (Grok Build CLI only)
+
+When the workflow tool is available:
 
 - Prefer `name: "overnight-ops"` or `script_path` `.grok/workflows/overnight-ops.rhai`
-- If the host refuses the path for folder trust, pass `script` as the contents of `.grok/workflows/overnight-ops.rhai` (inline) with the same args
-- `args.date`: YYYY-MM-DD. Run `date +%F` first. Workflows cannot call `timestamp()`.
+- If the host refuses the path, pass `script` inline with the same args
+- `args.date`: YYYY-MM-DD. Run `date +%F` first when shell is available.
 - `agent_budget`: 8
 - `validate_only`: false
 
-`/overnight` without `--now` may start the workflow in this session (interactive, not a 5am proof).
+Do not spawn listing, ads, inventory, customer, or creative yourself outside the workflow.
 
-Do not spawn listing, ads, inventory, customer, or creative yourself. The workflow Checks agent (ops) builds the spawn list; Specialists `parallel()` at most 2, then retries a failed spawn at most twice; Attach ops writes paths onto the brief and POSTs.
+### Grok Bot direct path (no workflow)
+
+When no workflow tool (typical Grok Bot Routine or `/overnight --now`):
+
+1. Read sources and logic; pull daily connected exports.
+2. Run checks from logic.md; write skeleton `reports/morning-brief-YYYY-MM-DD.md`.
+3. If zero sources readable: one line only `Overnight run could not read any source`, prefix `INCOMPLETE BRIEF`, stop.
+4. Fan out at most **2** flagged specialists (inventory, ads, customer) — never listing or creative. Prefer `@Inventory`, `@Ads`, `@Customer` when those Bots exist.
+5. Attach artifact paths to the brief; deliver per `reference/delivery.md`.
+6. Retry a failing source read at most twice. One pass.
 
 ## 1. Sources to pull
 

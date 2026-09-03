@@ -11,14 +11,15 @@ This is the product spec for a self-serve Grok kit that puts six named agents in
 
 ## 1. Promise
 
-An Amazon brand owner with Grok CLI and an xAI account can, in one sitting:
+An Amazon brand owner with **Grok Bot** and an xAI account can, in one sitting:
 
-1. Install the kit.
-2. Get a business folder at `~/Documents/<brand-slug>-ops/`.
-3. Talk to the **main agent** once (`/operator-setup`). It interviews them for sources and logic in that same sitting. `/sources` and `/logic` exist for later edits, not as day-one homework.
-4. Drop or connect those sources.
-5. Run `/prove` and get six dated artifacts that use *their* metrics.
-6. Optionally install overnight. Next morning a brief is in `reports/` and, if they opted in, Slack or email.
+1. Install Grok Bot.
+2. Create a blank agent and attach the kit zip.
+3. Run `/operator-setup` — the agent unpacks the kit, interviews for sources and logic, and creates six focused Grok Bots (Ops, Listing, Ads, Inventory, Customer, Creative).
+4. Get a business folder with `reference/sources.md` and `reference/logic.md`.
+5. Drop or connect those sources.
+6. Run `/prove` and get six dated artifacts that use *their* metrics.
+7. Optionally install overnight (Grok CLI on Mac). Next morning a brief is in `reports/` and, if they opted in, Slack or email.
 
 They do not need Seller Central API access, image-generation keys, or Claude Code. They do not edit skills.
 
@@ -32,7 +33,7 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 |---|---|---|
 | What this is | Sellable self-serve kit | Same muscle as Second Brain DIY Kit. Cohort and VS installs reuse the same repo later. |
 | Who | Amazon brand owner / operator | Not an agency pack, not a generic coding-agent starter. |
-| Runtime | Grok CLI + xAI account | Plugin, custom agents, overnight `grok -p`, workflows. Skill *bodies* stay portable `SKILL.md`. |
+| Runtime | **Grok Bot** (primary) + optional Grok CLI for overnight | Grok Bot: blank agent + zip → six bots + business folder. CLI: plugin, `grok -p`, workflows, 5am launchd. Skill *bodies* stay portable `SKILL.md`. |
 | Ship shape | Hybrid: Grok plugin + business-folder zip | Zip works offline like Second Brain. Plugin is the update channel. |
 | Roster | Full OS: Ops, Listing, Ads, Inventory, Customer, Creative | Buyer-locked. Creative in v1 is briefs only, no image gen. |
 | Data | Source registry, not five forced CSVs | Catalog of known Amazon reports exists. `/sources` maps what *they* have (csv / sheet / url / paste / mcp). No Amazon APIs in v1. |
@@ -71,7 +72,7 @@ Two install paths, one artifact:
 
 | Path | Who | What happens |
 |---|---|---|
-| Zip / Drive | Default self-serve | Unzip, `cd` into folder, open Grok, `/operator-setup`. Skills and agents are already under `.grok/` in the zip. |
+| Zip / Drive | Default self-serve | Attach zip to a blank Grok Bot agent → `/operator-setup`. Agent unpacks kit, creates six bots, writes business folder. Skills/agents ship under `.grok/` in the zip. |
 | Plugin | Updates, GitHub invitees | `grok plugin marketplace add <repo>` then `grok plugin install amazon-operator-os --trust`. Setup still writes the business folder. |
 
 The private GitHub repo is both the marketplace source and the zip source.
@@ -561,11 +562,11 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 ## 10. Buyer journey (90 minutes)
 
 1. Buy. Get email + Drive video + zip.
-2. Install Grok CLI, authenticate xAI (video).
-3. Unzip to `~/Documents/`, open Grok in the folder, `/operator-setup` (main agent interviews sources + logic in that sitting).
+2. Install **Grok Bot** ([x.ai/bot](https://x.ai/bot)), sign in with xAI (video).
+3. **New → Create new agent** (blank). Attach `amazon-operator-os.zip`. Tell it to unzip and run `/operator-setup` — it interviews sources + logic and creates the six specialist bots.
 4. Follow *their* refresh card (`reference/how-to-refresh.md`), not the full catalog.
-5. `/prove`. Read the six artifacts and the logic scoreboard. Add a missing source or drop that metric. Re-run.
-6. Optional: paste Slack webhook or mailer webhook, `/install-overnight`, noon dry-run.
+5. `/prove` with the Ops bot. Read the six artifacts and the logic scoreboard. Add a missing source or drop that metric. Re-run.
+6. Optional: Grok CLI on Mac for 5am overnight — paste Slack webhook or mailer webhook, `/install-overnight`, noon dry-run.
 
 Success email (auto or John): "Reply with the path to `reports/` if `/prove` is not 6/6."
 

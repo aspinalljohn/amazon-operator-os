@@ -4,9 +4,9 @@ Six named agents that run an Amazon brand from **your files** and **your rules**
 
 You drop the reports you already export. You tell the OS which numbers you actually watch. It writes a listing audit, ads exception brief, inventory risk, review intelligence, creative brief, and a weekly report that uses *your* north star (TACOS, cover, wasted spend, whatever you named), not a generic ACOS dashboard.
 
-Grok opened in the business folder *is* the OS. You do not edit skills. You do not connect Seller Central APIs. Missing data is written as `(not in the data)`, never invented.
+Grok Bot is the runtime. You create **one blank agent**, drop the kit zip, and that agent unpacks the OS, interviews you, and creates your six-operator team (Ops, Listing, Ads, Inventory, Customer, Creative). You do not edit skills. You do not connect Seller Central APIs. Missing data is written as `(not in the data)`, never invented.
 
-**New here?** One sitting: [install Grok](docs/INSTALL.md) → unzip (or clone) → `/operator-setup` → drop a file → `/prove`. Overnight is optional and last.
+**New here?** One sitting: [install Grok Bot](docs/INSTALL.md) → create blank agent → drop `amazon-operator-os.zip` → `/operator-setup` → drop a file → `/prove`. Overnight is optional and last (needs Grok CLI on Mac).
 
 ---
 
@@ -36,24 +36,24 @@ Those files beat every default inside a skill. If you watch TACOS, the ads brief
 
 ## Day one
 
-You need: a Mac or Linux machine, [Grok CLI](https://x.ai/cli/install.sh), an [xAI account](https://console.x.ai). Windows can run the kit by hand; overnight on Windows is out of v1.
+You need: the **Grok Bot** desktop app ([x.ai/bot](https://x.ai/bot)) and an eligible xAI plan. Grok CLI is only required for the optional 5am overnight job on Mac.
 
 **Zip is the default path.** If you were emailed `amazon-operator-os.zip`, start there. This GitHub repo is the update channel, not a blocker.
 
 ```text
-1. Install Grok and log in          →  docs/INSTALL.md
-2. Unzip the kit (or clone this repo)
-3. Open Grok in that folder
-4. /operator-setup                  →  brand, sources, and logic in one sitting
-5. Drop one of your files           →  follow the printed how-to-refresh.md
-6. /prove                           →  six dated files under reports/
+1. Install Grok Bot and sign in       →  docs/INSTALL.md
+2. New → Create new agent             →  blank "New Agent" (your Ops lead)
+3. Attach amazon-operator-os.zip      →  drag into the composer
+4. Run setup                          →  "Unzip and run /operator-setup"
+5. Drop one of your files             →  follow how-to-refresh.md
+6. /prove                             →  six dated files under reports/
 ```
 
-`/operator-setup` interviews you for sources and logic in that same conversation. Do not treat `/sources` and `/logic` as day-one homework. They exist for later edits.
+Your Ops agent unpacks the kit, interviews you for brand/sources/logic in that same conversation, and creates the six specialist bots from the definitions in `.grok/agents/`. Do not treat `/sources` and `/logic` as day-one homework — setup runs them inline.
 
 `/prove` is green when six artifacts exist on disk. A file full of `(not in the data)` still counts. A watch metric with no source is named on the scoreboard; that does not fail `/prove`.
 
-Step-by-step commands, including plugin updates: [`docs/INSTALL.md`](docs/INSTALL.md). What to export from Amazon: [`docs/EXPORTS.md`](docs/EXPORTS.md). Your live list is the refresh card setup writes, not the full catalog.
+Step-by-step (including the first message to paste): [`docs/INSTALL.md`](docs/INSTALL.md) (also `INSTALL.md` inside the zip). What to export from Amazon: [`docs/EXPORTS.md`](docs/EXPORTS.md) (also `EXPORTS.md` inside the zip). Your live list is the refresh card setup writes, not the full catalog.
 
 ## Commands
 
@@ -62,18 +62,33 @@ Step-by-step commands, including plugin updates: [`docs/INSTALL.md`](docs/INSTAL
 | `/operator-setup` | Day one. Writes the business folder, then interviews sources + logic. |
 | `/prove` | Smoke test on *your* files. Six artifacts + a two-line scoreboard. |
 | `/weekly` | Same fan-out, dated for this week. The operating command after the first prove. |
-| `/listing-audit <asin>` | Named listing audit. |
-| `/creative-brief <asin>` | Named image-stack + A+ brief. |
+| `/listing-audit <asin>` | Ask your **Listing** bot, or Ops to route listing work |
+| `/creative-brief <asin>` | Ask your **Creative** bot, or Ops to route creative work |
 | `/sources` | Re-interview or add a source after day one. |
 | `/logic` | Change a rule. `/logic add If hero cover < 21 days, throttle ads` appends. |
 | `/install-overnight` | Optional. 5am local brief on Mac. Only after `/prove` is 6/6. |
 | `/overnight --now` | Noon dry-run of the 5am job. Trust 5am only after this is clean. |
 
-Talk to Ops in English (`should I keep spending on the hero SKU?`) or switch `/agent ads`. Ops may spawn one specialist for a question.
+Talk to your **Ops** bot in plain English (`should I keep spending on the hero SKU?`) or message a specialist bot directly. Ops may delegate to one specialist for a question.
+
+## Your six bots
+
+Setup creates one focused Grok Bot per seat. Each reads the same business folder and the same `sources.md` / `logic.md`:
+
+| Bot | Job |
+|---|---|
+| **Ops** | Weekly report, morning brief, routing — your default agent |
+| **Listing** | Listing audits, CVR flags |
+| **Ads** | PPC exceptions, TACOS/wasted spend |
+| **Inventory** | Cover and stockout risk |
+| **Customer** | Review intelligence + reply drafts |
+| **Creative** | Image-stack and A+ briefs (no pixels) |
+
+All bots share the workspace filesystem. Files dropped into `exports/` are visible to every bot.
 
 ## Your business folder
 
-Setup writes `~/Documents/<brand-slug>-ops/` (or fills the unzipped kit). Work from **that** folder, not from the kit source tree.
+Setup writes your business folder in the Grok Bot workspace (e.g. `<brand-slug>-ops/` with `AGENTS.md` and `.grok/` at the root). Work from **that** folder — not from the zip attachment.
 
 ```
 <brand>-ops/
@@ -110,7 +125,9 @@ Sheets, Helium10, and pasted dumps map onto the same seats. A source not in `sou
 
 ## Overnight (optional)
 
-After `/prove` is 6/6, `/install-overnight` loads a 5am local Mac job. Ops always runs. Specialists run only on flags *you* set, max two, never listing or creative. Default priority is inventory → ads → customer unless `logic.md` reorders those three.
+After `/prove` is 6/6, `/install-overnight` loads a 5am local **Mac** job via Grok CLI (`bin/overnight.sh`). Grok Bot runs the kit day to day; CLI handles the unattended schedule.
+
+Ops always runs. Specialists run only on flags *you* set, max two, never listing or creative. Default priority is inventory → ads → customer unless `logic.md` reorders those three.
 
 A Mac that sleeps will miss 5am. Use an always-on Mac mini, disable sleep for that window, or skip overnight and run `/weekly` by hand. Windows overnight is out of v1.
 
@@ -118,14 +135,14 @@ File is always written to `reports/morning-brief-YYYY-MM-DD.md`. Slack or email 
 
 ## Updates
 
-Skills and agents ship inside the zip (under `.grok/`). Plugin install is optional, for later updates:
+The zip ships skills and agent definitions under `.grok/`. Re-attach a fresh zip to your Ops bot for a full refresh, or install the plugin via Grok CLI for incremental updates:
 
 ```text
 grok plugin marketplace add aspinalljohn/amazon-operator-os
 grok plugin install amazon-operator-os --trust
 ```
 
-Then open Grok in **your** business folder, not in this repo.
+Most buyers never need the CLI path unless they want overnight or GitHub-based updates.
 
 ## What this is not
 
@@ -149,7 +166,9 @@ Support bar: a green `/prove` on your files, and a `logic.md` that looks like yo
 
 **Do I need every Amazon report on day one?** No. Connect what you have. Missing seats still write a file with `(not in the data)`.
 
-**Do I need GitHub?** No. Zip is enough. This repo is for updates if you were invited.
+**Do I need Grok CLI?** No for day-to-day use in Grok Bot. Yes only for optional 5am overnight on Mac, or plugin updates from GitHub.
+
+**Do I need GitHub?** No. Zip + Grok Bot is enough. This repo is for updates if you were invited.
 
 **Can I change the rules later?** Yes. `/logic` or edit `reference/logic.md`. `/sources add …` when a new export appears. No reinstall.
 

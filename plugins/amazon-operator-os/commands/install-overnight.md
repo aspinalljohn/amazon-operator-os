@@ -1,0 +1,1 @@
+Follow the install-overnight skill. Parent session only. Grok Bot default creates a Routine on Ops; Grok Build CLI advanced may use launchd on Mac. After install, tell the operator to run /overnight --now for a test before trusting the schedule.

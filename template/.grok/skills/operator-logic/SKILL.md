@@ -39,6 +39,8 @@ Required sections, exact headings:
 
 Metrics table columns: metric, why, source_id, good, flag, seat.
 
+When a metric needs more than one source (e.g. TACOS = sales revenue + ads spend), write a composite `source_id` using ` + ` between ids that exist in sources.md: `sales + ads-campaigns`. Do not invent ids. Tell the operator: "TACOS needs both files connected."
+
 Overnight: default priority inventory, ads, customer. cap: 2. They may reorder those three. They may not set cap above 2. If they ask for 3, keep 2 and say so.
 
 Show the file. Ask "Is this you?" Edit until they say yes.

@@ -1,0 +1,1 @@
+Follow the operator-setup skill. Parent session only. Do not spawn_subagent. Do not start a workflow. Do not send the operator to /sources or /logic as homework — run both interviews inline in this sitting.

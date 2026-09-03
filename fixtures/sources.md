@@ -9,4 +9,4 @@ status: connected
 | ads-search-terms | ads, ops | csv | exports/ads/sp-search-terms.csv | daily | connected | Ads → SP → Search term report → 14 days |
 | inventory | inventory, ops | csv | exports/inventory/fba-inventory.csv | daily | connected | SC → Inventory Planning → FBA inventory |
 | reviews | customer | csv | exports/reviews/reviews.csv | weekly | connected | Helium10 / pasted last-90-day reviews dump |
-| listings | listing, creative | csv | exports/listings/listings.md | weekly | connected | Listing pack markdown with titles and dp URLs |
+| listings | listing, creative | paste | exports/listings/listings.md | weekly | connected | Listing pack markdown with titles and dp URLs |

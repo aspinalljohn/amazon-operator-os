@@ -11,11 +11,11 @@ This is the product spec for a self-serve Grok kit that puts six named agents in
 
 ## 1. Promise
 
-An Amazon brand owner with Grok CLI and an xAI account can, in one sitting:
+An Amazon brand owner with **Grok Bot** and an eligible Cursor/xAI plan can, in one sitting:
 
-1. Install the kit.
-2. Get a business folder at `~/Documents/<brand-slug>-ops/`.
-3. Talk to the **main agent** once (`/operator-setup`). It interviews them for sources and logic in that same sitting. `/sources` and `/logic` exist for later edits, not as day-one homework.
+1. Install Grok Bot and the kit.
+2. Get a business folder at `/workspace/<brand-slug>-ops/` on the Grok Bot cloud computer (`~/Documents/<brand-slug>-ops/` on the Grok Build CLI advanced path).
+3. Create the six Bots (Ops, Listing, Ads, Inventory, Customer, Creative) and talk to **Ops** once (`/operator-setup`). It interviews them for sources and logic in that same sitting. `/sources` and `/logic` exist for later edits, not as day-one homework.
 4. Drop or connect those sources.
 5. Run `/prove` and get six dated artifacts that use *their* metrics.
 6. Optionally install overnight. Next morning a brief is in `reports/` and, if they opted in, Slack or email.
@@ -32,7 +32,7 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 |---|---|---|
 | What this is | Sellable self-serve kit | Same muscle as Second Brain DIY Kit. Cohort and VS installs reuse the same repo later. |
 | Who | Amazon brand owner / operator | Not an agency pack, not a generic coding-agent starter. |
-| Runtime | Grok CLI + xAI account | Plugin, custom agents, overnight `grok -p`, workflows. Skill *bodies* stay portable `SKILL.md`. |
+| Runtime | **Grok Bot** desktop app + cloud `/workspace/` (default). Grok Build CLI optional for local dev. | Named Bots, skills, Routines. Skill bodies stay portable `SKILL.md`. `.rhai` workflows = CLI advanced only. |
 | Ship shape | Hybrid: Grok plugin + business-folder zip | Zip works offline like Second Brain. Plugin is the update channel. |
 | Roster | Full OS: Ops, Listing, Ads, Inventory, Customer, Creative | Buyer-locked. Creative in v1 is briefs only, no image gen. |
 | Data | Source registry, not five forced CSVs | Catalog of known Amazon reports exists. `/sources` maps what *they* have (csv / sheet / url / paste / mcp). No Amazon APIs in v1. |
@@ -42,17 +42,19 @@ They do not need Seller Central API access, image-generation keys, or Claude Cod
 | Delivery | File always; Slack webhook or email/webhook optional | Opt-in during setup. Fail loud if delivery is configured and the post fails. |
 | Support | Install + green `/prove` + a logic file that looks like them | Not custom skill writing. Not Velocity client pipelines. |
 | Price (kit) | $997 | Second Brain is $500 (vault). This is the operating layer. Confirm at checkout build. |
-| Working folder | `~/Documents/<brand-slug>-ops/` | Predictable. Setup does not write into an existing vault. |
+| Working folder | `/workspace/<brand-slug>-ops/` on Grok Bot cloud computer (default). `~/Documents/<brand-slug>-ops/` for Grok Build CLI advanced. | Predictable. Setup does not write into an existing vault. |
 
 ---
 
 ## 3. Architecture
 
 ```
-Buyer machine
-├── Grok CLI (authenticated)
-├── Plugin: amazon-operator-os   (agents, skills, workflows)
-└── Business folder: ~/Documents/<brand>-ops/
+Buyer Grok Bot account
+├── Grok Bot desktop app (authenticated with Cursor)
+├── Cloud computer: /workspace/<brand>-ops/
+├── Six named Bots (Ops, Listing, Ads, Inventory, Customer, Creative)
+├── Plugin / vendored .grok/ (agents, skills)
+└── Business folder on cloud workspace
     ├── AGENTS.md                 (context every agent reads)
     ├── exports/                  (drop-only, never written by agents)
     ├── reference/
@@ -65,14 +67,14 @@ Buyer machine
     └── logs/                     (overnight run log)
 ```
 
-Grok opened in the business folder *is* the OS. The plugin supplies the six agent types and the skills (generic procedures). The folder supplies the brand, the wiring, the logic, and the outputs. Skills never contain a buyer's ACOS number.
+The business folder *is* the OS. The plugin (or vendored `.grok/`) supplies the six seats and the skills (generic procedures). The folder supplies the brand, the wiring, the logic, and the outputs. Skills never contain a buyer's ACOS number.
 
 Two install paths, one artifact:
 
 | Path | Who | What happens |
 |---|---|---|
-| Zip / Drive | Default self-serve | Unzip, `cd` into folder, open Grok, `/operator-setup`. Skills and agents are already under `.grok/` in the zip. |
-| Plugin | Updates, GitHub invitees | `grok plugin marketplace add <repo>` then `grok plugin install amazon-operator-os --trust`. Setup still writes the business folder. |
+| Zip / Drive | Default self-serve | Install Grok Bot, create six Bots, deploy the unzipped folder to `/workspace/<brand>-ops/`, enable skills, `/operator-setup`. Skills and agents are already under `.grok/` in the zip. |
+| Plugin | Updates, GitHub invitees, CLI users | `grok plugin marketplace add <repo>` then `grok plugin install amazon-operator-os --trust` (Grok Build CLI). Setup still writes the business folder. |
 
 The private GitHub repo is both the marketplace source and the zip source.
 
@@ -417,7 +419,7 @@ Same ASIN selection rule as Listing.
 
 Volume-lane-router is an internal note in overnight-ops (gather/check is cheap; judgment on flags is the same model in v1). Do not expose a model-router UI to the buyer in v1. One xAI model, one bill.
 
-Plugin agent frontmatter must not set `permissionMode: bypassPermissions` (Grok ignores it on plugin agents). Overnight always-approve is a CLI flag on `grok -p`, not an agent file.
+Plugin agent frontmatter must not set `permissionMode: bypassPermissions` (Grok ignores it on plugin agents). Overnight always-approve is a CLI flag on `grok --always-approve`, not an agent file.
 
 ---
 
@@ -431,9 +433,9 @@ Day one is **one command**: `/operator-setup`. It runs the sources interview and
 
 Does not wait for files.
 
-1. Check `grok` is on PATH and the user is authenticated. If not, print the two install/auth commands from `docs/INSTALL.md` and stop.
+1. Confirm the runtime. Grok Bot: the six Bots exist and kit skills are enabled (see `reference/bot-roster.md`). Grok Build CLI advanced: `grok` is on PATH and authenticated. If neither is ready, print the steps from `docs/INSTALL.md` and stop.
 2. Ask, one cluster at a time: brand name, what they sell, 1–3 ASINs (optional), voice (or accept the default operator voice), delivery (none / Slack webhook / email-or-generic webhook).
-3. Write `~/Documents/<brand-slug>-ops/` from `template/`. Fill `AGENTS.md`, `reference/brand.md`, `reference/asins.md`, `reference/delivery.md`.
+3. Write `/workspace/<brand-slug>-ops/` from `template/` (CLI advanced: `~/Documents/<brand-slug>-ops/`). Fill `AGENTS.md`, `reference/brand.md`, `reference/asins.md`, `reference/delivery.md`, `reference/bot-roster.md`.
 4. **Sources interview (inline).** Follow `operator-sources` in this same session. Write `reference/sources.md` and `reference/how-to-refresh.md`. Show the table: "Is this your stack?"
 5. **Logic interview (inline).** Follow `operator-logic` in this same session. They can skip and accept `defaults-not-reviewed`. Write `reference/logic.md`. Show the file: "Is this you?"
 6. Print the refresh card and: "Drop or connect those files, then run `/prove` in this folder."
@@ -466,7 +468,11 @@ Workflow `weekly-ops.rhai`:
 
 ### 7.4 Overnight
 
-Unattended. Launchd (macOS) calls a wrapper script in the business folder:
+Unattended.
+
+**Grok Bot (default):** `/install-overnight` creates a **Routine** owned by the Ops Bot (e.g. weekdays 5:00 AM local). Routines run on the cloud computer, so the buyer's laptop can be closed. Windows and Linux buyers get the same scheduler — no platform gap.
+
+**Grok Build CLI (advanced, macOS):** launchd calls a wrapper script in the business folder:
 
 ```
 bin/overnight.sh
@@ -474,20 +480,21 @@ bin/overnight.sh
 
 Behavior:
 
-```
+```bash
 cd "$OPS_DIR"
 DATE=$(date +%F)
-grok -p --yolo --cwd "$OPS_DIR" --max-turns 40 \
+grok --always-approve --cwd "$OPS_DIR" --max-turns 40 \
   --allow 'Read(./**)' \
   --allow 'Write(./reports/**)' \
   --allow 'Write(./drafts/**)' \
   --allow 'Write(./logs/**)' \
   --deny 'Write(./exports/**)' \
   --deny 'Bash(rm*)' \
-  --prompt-file ./reference/overnight-prompt.md
+  -p "Run the overnight-ops skill and overnight-ops workflow for ${DATE}. Follow reference/sources.md and reference/logic.md. Do not spawn listing or creative." \
+  >> "logs/overnight-${DATE}.log" 2>&1
 ```
 
-`reference/overnight-prompt.md` is written by setup: "Run overnight-ops for $DATE. Follow the overnight-ops skill and the overnight-ops workflow."
+Setup does not write a separate prompt file in v1; the wrapper passes the prompt inline.
 
 Workflow `overnight-ops.rhai` / skill `overnight-ops`:
 
@@ -499,11 +506,11 @@ Workflow `overnight-ops.rhai` / skill `overnight-ops`:
 6. If zero sources readable: send/write one line `Overnight run could not read any source` and exit. Never a clean-looking empty brief.
 7. Cap: one pass, max two specialist retries of a failed spawn, `--max-turns 40` on the parent.
 
-Launchd: `~/Library/LaunchAgents/com.operatoros.overnight.plist`, 5:00 AM local. `install-overnight` writes the plist, `launchctl load`s it, and runs a noon dry-run (`/overnight --now`) before trusting 5am.
+Launchd (CLI advanced): `~/Library/LaunchAgents/com.operatoros.overnight.plist`, 5:00 AM local. `install-overnight` writes the plist, `launchctl load`s it, and runs a noon dry-run (`/overnight --now`) before trusting 5am.
 
-Windows: out of v1. Docs say run `/weekly` manually.
+Windows and Linux: supported through Grok Bot Routines. Launchd path is macOS-only.
 
-Host must be on at 5am. INSTALL.md says: Mac that sleeps will miss the run; use an always-on Mac mini or disable sleep, or skip overnight.
+Host sleep applies only to the CLI path: a Mac that sleeps misses launchd. Grok Bot Routines run in the cloud.
 
 ### 7.5 On-demand
 
@@ -516,7 +523,7 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 | Rule | v1 |
 |---|---|
 | Interactive permissions | ask (Grok default) |
-| Overnight permissions | `--yolo` plus allow/deny globs above |
+| Overnight permissions | `--always-approve` plus allow/deny globs above |
 | Writes | `reports/`, `drafts/`, `logs/`, `reference/` (setup, `/sources`, `/logic` only) |
 | `exports/` | read-only forever |
 | Outside the business folder | deny |
@@ -535,13 +542,13 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 **Delivery (John):** same muscle as Second Brain DIY Kit.
 
 1. Payment lands.
-2. Share Drive walkthrough (Grok install → `/operator-setup` → `/sources` → `/logic` → drop one of *their* files → `/prove`).
+2. Share Drive walkthrough (Grok Bot install → create six Bots → deploy kit → `/operator-setup` → drop one of *their* files → `/prove`). Script: `docs/DRIVE-WALKTHROUGH.md`.
 3. Email zip from john@goaspi.com (`amazon-operator-os.zip`) plus, if they have a GitHub username, invite to `aspinalljohn/amazon-operator-os`.
 4. Log the buyer (reuse the kit buyers-log pattern; new tab or file `amazon-operator-os-buyers-log.md`).
 
 **What's in the box:** zip, INSTALL.md, EXPORTS.md (catalog), plugin/repo access, six agents, `/sources`, `/logic`, `/prove`, optional overnight.
 
-**What's not:** image generation, Seller Central login work, custom skill writing, Claude Code dual install, Windows overnight, advisory time.
+**What's not:** image generation, Seller Central login work, custom skill writing, Claude Code dual install, a seventh Bot seat, advisory time.
 
 **Support boundary:** "I will get you to a green `/prove` on your files and a `logic.md` that looks like you." After that, OI cohort or advisory. They edit `sources.md` / `logic.md` themselves. You do not write them a new skill because they watch TACOS instead of ACOS.
 
@@ -559,11 +566,11 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 ## 10. Buyer journey (90 minutes)
 
 1. Buy. Get email + Drive video + zip.
-2. Install Grok CLI, authenticate xAI (video).
-3. Unzip to `~/Documents/`, open Grok in the folder, `/operator-setup` (main agent interviews sources + logic in that sitting).
-4. Follow *their* refresh card (`reference/how-to-refresh.md`), not the full catalog.
-5. `/prove`. Read the six artifacts and the logic scoreboard. Add a missing source or drop that metric. Re-run.
-6. Optional: paste Slack webhook or mailer webhook, `/install-overnight`, noon dry-run.
+2. Install **Grok Bot** from [x.ai/bot](https://x.ai/bot), sign in with Cursor (video).
+3. Create six Bots; deploy kit to `/workspace/`; Ops → `/operator-setup`.
+4. Follow *their* refresh card (`reference/how-to-refresh.md`).
+5. `/prove`. Read six artifacts and scoreboard.
+6. Optional: `/install-overnight` Routine + `/overnight --now` test.
 
 Success email (auto or John): "Reply with the path to `reports/` if `/prove` is not 6/6."
 
@@ -601,7 +608,7 @@ No live Amazon account required for QA.
 - Seller Central / Amazon Ads APIs
 - Claude Code dual runtime (skills remain portable; we do not test or support Claude install)
 - Brand Store, SBV, social ads
-- Windows overnight installer
+- Windows launchd-equivalent for the CLI advanced path (Grok Bot Routines already cover Windows)
 - Live catalog or campaign writes
 - Required Slack/email (optional only)
 - Buyer-facing demo brand as the default prove path

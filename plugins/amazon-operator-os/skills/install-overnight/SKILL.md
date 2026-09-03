@@ -1,50 +1,62 @@
 ---
 name: install-overnight
-description: Install the 5am local overnight brief via launchd on macOS. Writes the plist, loads it, and tells the operator to noon dry-run before trusting 5am. Use when the operator says "install overnight", runs /install-overnight, or wants a scheduled morning brief.
+description: Install a scheduled morning brief on Grok Bot (Routine on the Ops Bot, cloud scheduler). For Grok Build CLI advanced path only, may use macOS launchd via bin/overnight.sh. Use when the operator says install overnight, runs /install-overnight, or wants a scheduled morning brief.
 ---
 
 # Install overnight
 
-Install launchd so this business folder gets a 5am local morning brief. Parent session. Do not spawn specialists. Do not start the overnight-ops workflow in this sitting unless they asked to dry-run now.
+Parent session. Do not spawn specialists in this sitting unless they asked to dry-run now.
 
-## Windows
+## Grok Bot (default)
 
-If this machine is Windows, print exactly:
+The operator uses **Grok Bot**, not Grok CLI. Do **not** install launchd or tell them to run `grok` in terminal for scheduling.
 
+Create a **Routine** on this Ops Bot. Ask them to confirm:
+
+- Schedule (default: weekdays 5:00 AM in their time zone — adjust if they say so)
+- Time zone
+- Input: daily connected sources in `reference/sources.md` under `/workspace/<brand>-ops/`
+- Output: `reports/morning-brief-YYYY-MM-DD.md` plus conversation summary
+- Cap: at most 2 flagged specialists (inventory, ads, customer) — never listing or creative
+- Missing data: one-line incomplete alert, never a fake-clean brief
+- Delivery: read `reference/delivery.md`; POST only if method is slack/webhook
+
+Draft the routine instruction in plain language, e.g.:
+
+> Every weekday at 5:00 AM [timezone], run the overnight-ops skill for `/workspace/<brand>-ops/`. Read reference/sources.md and reference/logic.md. Pull daily connected exports. Write the morning brief. Fan out at most two flagged specialists per logic.md. If zero sources readable, report failure instead of an empty brief.
+
+Use Grok Bot's routine creation flow (the app creates the Routine from this instruction). Point them to **View conversation details → Routines** to manage it.
+
+## Test run (required)
+
+Before trusting the schedule, tell them:
+
+```text
+/overnight --now
 ```
-out of v1, run /weekly manually.
-```
 
-Stop. Do not write a Task Scheduler job.
+Run the overnight-ops skill once interactively. They should see a morning brief in `reports/` and a clear summary in chat. Use **Test run** on the Routine if the app offers it.
 
-## Mac sleep warning
+Routines run on the **cloud computer** — their laptop can be closed.
 
-Say this before installing:
+## Grok Build CLI (advanced only)
 
-A Mac that sleeps will miss the 5am run. Use an always-on Mac mini, disable sleep for that window, or skip overnight and run `/weekly` by hand.
+Only if they explicitly use the local CLI path (`docs/GROK-BUILD-ADVANCED.md`) **and** the business folder is on their Mac with `bin/overnight.sh`:
 
-## Install (macOS)
+### Windows / Linux CLI
 
-1. Confirm cwd is the business folder (has `AGENTS.md`, `bin/overnight.sh`, `bin/overnight.plist.example`, `reference/logic.md`). If `bin/overnight.sh` is missing, copy it from the kit `template/bin/`.
+Print: `Overnight via launchd is Grok Build advanced on Mac only. Use a Grok Bot Routine, or run /weekly manually.`
+
+Stop unless they switch to Grok Bot Routines.
+
+### macOS CLI + launchd
+
+1. Confirm cwd is the local business folder (has `bin/overnight.sh`, `bin/overnight.plist.example`).
 2. `chmod +x bin/overnight.sh`
-3. Resolve `OPS_DIR` as this folder's absolute path (`pwd -P`).
-4. Read `bin/overnight.plist.example`. Replace every `__OPS_DIR__` with that absolute path. Do not leave the placeholder.
-5. `mkdir -p ~/Library/LaunchAgents logs reports`
-6. Write `~/Library/LaunchAgents/com.operatoros.overnight.plist`
-7. If that label is already loaded, `launchctl unload ~/Library/LaunchAgents/com.operatoros.overnight.plist` first (ignore a not-loaded error).
-8. `launchctl load ~/Library/LaunchAgents/com.operatoros.overnight.plist`
+3. Write `~/Library/LaunchAgents/com.operatoros.overnight.plist` from the example with absolute `__OPS_DIR__`.
+4. `launchctl load` the plist.
+5. Mac sleep warning: a sleeping Mac misses 5am — prefer Grok Bot Routine instead.
 
-Plist must keep:
-
-- Label `com.operatoros.overnight`
-- `StartCalendarInterval` Hour `5` Minute `0`
-- `ProgramArguments` `/bin/bash` `-lc` `<OPS_DIR>/bin/overnight.sh`
-- `WorkingDirectory` `<OPS_DIR>`
-
-## Noon dry-run
-
-Do not trust 5am yet. Tell them to run `/overnight --now`. That command runs the wrapper `bin/overnight.sh` — the same script launchd runs at 5am (`grok --always-approve --cwd --max-turns 40` with allow/deny globs). It is not an in-session overnight-ops workflow.
-
-They should see `reports/morning-brief-YYYY-MM-DD.md` and `logs/overnight-YYYY-MM-DD.log`. If the log is missing, the dry-run did not prove 5am.
+Dry-run: `bash bin/overnight.sh` or `/overnight --now`.
 
 Do not run the wrapper yourself unless they asked to dry-run now.

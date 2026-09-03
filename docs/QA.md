@@ -1,10 +1,32 @@
 # QA matrix — Amazon Operator OS
 
-v1 does not ship if a row in the results table is **fail**. Live grok is optional evidence, not a reason to invent a pass. Record **pass**, **fail**, or **skipped** with a reason.
+v1 does not ship if a row in the results table is **fail**. Live grok is optional evidence for pack-only rows, not a reason to invent a pass. Record **pass**, **fail**, or **skipped** with a reason.
+
+## Pre-ship live checklist (required once per release)
+
+On a machine with **Grok Bot** installed, signed in, and six Bots created:
+
+1. Deploy `template/` to `/workspace/northline-live/` on the Agent Computer; `bash scripts/load-fixtures.sh` that path (from cloud shell or Ops Bot).
+2. Ops → `/prove` → six artifacts, TACOS north star, scoreboard two lines.
+3. `/install-overnight` → Routine; `/overnight --now` → morning brief (default fixtures: inventory + ads, cap 2).
+
+Optional CLI regression: repeat prove with Grok Build on `/tmp/northline-ops` using `weekly-ops.rhai` — see `docs/GROK-BUILD-ADVANCED.md`.
 
 Internal fixtures: anonymized Northline Home (6 child ASINs, 14-day sales, 2 SP campaigns, mixed cover, 40 reviews, listing markdown). North star is TACOS, not ACOS. No live Amazon account required.
 
 ## Setup
+
+### Grok Bot (buyer path — required rows)
+
+Deploy the kit to a test folder on the Agent Computer, then load fixtures:
+
+```text
+/workspace/northline-qa/
+```
+
+Ask Ops to copy `template/` there and apply `fixtures/` into `exports/` plus `reference/sources.md` and `reference/logic.md` (equivalent of `scripts/load-fixtures.sh`). Run rows from the **Ops** Bot chat.
+
+### Grok Build CLI (optional regression)
 
 From the kit root:
 
@@ -17,25 +39,27 @@ bash scripts/load-fixtures.sh /tmp/northline-ops
 cd /tmp/northline-ops
 ```
 
-Open Grok in that folder for live rows. Headless `/prove` has previously hit `--max-turns 30` before Phase 2; interactive `/prove` has no max-turns. Do not run `bin/overnight.sh` against a real Slack URL in QA unless you intend to POST.
+Open Grok Build in that folder for CLI rows. Headless `/prove` has previously hit `--max-turns 30` before Phase 2; interactive `/prove` has no max-turns. Do not run `bin/overnight.sh` against a real Slack URL in QA unless you intend to POST.
 
-`kit_check` and fixture math can run without grok. Do not fake a live grok transcript.
+`kit_check` and fixture math run without any Grok runtime. Do not fake a live transcript.
 
 ## Spec 11 runbook
 
+Run column shows the **Grok Bot** action. CLI equivalents in parentheses are advanced-only.
+
 | # | Test | How to run | Pass |
 |---|---|---|---|
-| 1 | `/prove --fixtures` with fixture `logic.md` (TACOS + cover, not ACOS-only) | In `/tmp/northline-ops` after load-fixtures: `/prove` (or `/prove --fixtures` from an empty exports folder). | Six artifacts under `reports/`. Weekly north star is TACOS. Ads brief does not treat 35% ACOS as the flag. |
-| 2 | Delete ads source and re-prove | Remove `exports/ads/*` (leave README). Set `ads-campaigns` and `ads-search-terms` status to missing in `reference/sources.md`. `/prove`. | Ads artifact exists. TACOS and wasted spend are `(not in the data)`. Scoreboard: `TACOS = no source.` (and wasted spend if that row has no source). Artifacts still 6/6. |
-| 3 | Wrong-columns CSV | Replace a connected CSV with a file that is missing the catalog columns in `docs/EXPORTS.md`. `/prove` or run that seat. | Agent names the file and the expected columns. Does not guess numbers. |
-| 4 | Overnight, inventory cover only | Keep hero cover under the logic flag (B0FIXTURE1 DoS 12 < 21). Clear ads flags: drop the wasted term or set its spend ≤ $20, leave TACOS under 22%. `/overnight --now` (wrapper `bin/overnight.sh`). | Ops + inventory specialist only (1 of 2). Brief attaches `reports/inventory-risk-YYYY-MM-DD.md`. No ads, listing, or creative spawn. |
-| 5 | Overnight, ads and inventory both flagging | Default fixtures: cover 12 days on the hero (still spending) and wasted term $40 / $0. `/overnight --now`. | Both inventory and ads specialists. Cap not exceeded. |
-| 6 | Overnight, three flags (inventory, ads, customer) | Trip a customer-seat flag as well (daily connected reviews plus a refund/review flag, or a customer row in logic.md that the daily files trip). `/overnight --now`. | inventory + ads only unless logic reordered those three. Cap 2. Never listing or creative. |
-| 7 | `logic.md` still `defaults-not-reviewed` | Stamp `status: defaults-not-reviewed` at the top of `reference/logic.md`. `/prove`. Then overnight. | `/prove` warns: `logic is still defaults — run /logic or your briefs will look like every other Amazon dashboard.` Does not stop. Overnight still runs on defaults. |
-| 8 | Agent flags ACOS 35% while logic says TACOS 22% | Read `reports/ppc-exception-brief-YYYY-MM-DD.md` after a fixtures prove. | **Fail QA** if the ads brief (or weekly top line) uses 35% ACOS as the flag. Fixture logic: TACOS target <18%, flag >22%. |
+| 1 | `/prove --fixtures` with fixture `logic.md` (TACOS + cover, not ACOS-only) | Ops → `/prove` in the fixtures-loaded ops folder. | Six artifacts under `reports/`. Weekly north star is TACOS. Ads brief does not treat 35% ACOS as the flag. |
+| 2 | Delete ads source and re-prove | Remove `exports/ads/*` (leave README). Set `ads-campaigns` and `ads-search-terms` status to missing in `reference/sources.md`. Ops → `/prove`. | Ads artifact exists. TACOS and wasted spend are `(not in the data)`. Scoreboard: `TACOS = no source.` Artifacts still 6/6. |
+| 3 | Wrong-columns CSV | Replace a connected CSV with a file missing the catalog columns in `docs/EXPORTS.md`. Ops → `/prove` or run that seat. | Agent names the file and the expected columns. Does not guess numbers. |
+| 4 | Overnight, inventory cover only | Keep hero cover under the logic flag (B0FIXTURE1 DoS 12 < 21). Clear ads flags. Ops → `/overnight --now` (CLI: wrapper `bin/overnight.sh`). | Ops + inventory specialist only (1 of 2). Brief attaches `reports/inventory-risk-YYYY-MM-DD.md`. No ads, listing, or creative. |
+| 5 | Overnight, ads and inventory both flagging | Default fixtures: cover 12 days on the hero (still spending) and wasted term $40 / $0. Ops → `/overnight --now`. | Both inventory and ads specialists. Cap not exceeded. |
+| 6 | Overnight, three flags (inventory, ads, customer) | Trip a customer-seat flag as well. Ops → `/overnight --now`. | inventory + ads only unless logic reordered those three. Cap 2. Never listing or creative. |
+| 7 | `logic.md` still `defaults-not-reviewed` | Stamp `status: defaults-not-reviewed` at the top of `reference/logic.md`. Ops → `/prove`, then overnight. | `/prove` warns: `logic is still defaults — run /logic or your briefs will look like every other Amazon dashboard.` Does not stop. Overnight still runs. |
+| 8 | Agent flags ACOS 35% while logic says TACOS 22% | Read `reports/ppc-exception-brief-YYYY-MM-DD.md` after a fixtures prove. | **Fail QA** if the ads brief (or weekly top line) uses 35% ACOS as the flag. |
 | 9 | Delivery URL 404 | Set `reference/delivery.md` to `method: webhook` and `url:` `https://example.invalid/qa-404`. Overnight. | Brief written. Delivery: failed. No crash. URL not copied into the brief. |
-| 10 | Empty `exports/` overnight | Empty the connected daily files (or point sources at missing paths). Overnight. | One line only: `Overnight run could not read any source`. Prefix `INCOMPLETE BRIEF`. No fake-clean brief. No specialists. |
-| 11 | Specialist cannot write `exports/` | Overnight wrapper already denies `Write(./exports/**)`. Confirm `template/bin/overnight.sh`. Optional: ask a specialist to write `exports/ads/probe.csv` during a dry-run. | Deny. `exports/` unchanged. |
+| 10 | Empty `exports/` overnight | Empty the connected daily files (or point sources at missing paths). Overnight. | One line only: `Overnight run could not read any source`. Prefix `INCOMPLETE BRIEF`. No specialists. |
+| 11 | Specialist does not write `exports/` | Grok Bot: ask a specialist to write `exports/ads/probe.csv` during a run — skills forbid it. CLI: wrapper denies `Write(./exports/**)` in `template/bin/overnight.sh`. | Refused. `exports/` unchanged. |
 
 ### Artifact paths `/prove` must leave
 

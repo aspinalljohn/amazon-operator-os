@@ -52,7 +52,7 @@ You are signed in when you can open a Bot chat and see the computer status ready
 
 ## Step 3 — Create your six Bots
 
-In Grok Bot, create **six named Bots** (sidebar → create Bot). **Use exact names** — see `reference/bot-roster.md` in your ops folder (or the template copy before deploy):
+In Grok Bot, create **six named Bots** (sidebar → create Bot). **Use exact names** — the full list with skills is in `reference/bot-roster.md` inside your unzipped kit folder (repo path: `template/reference/bot-roster.md`):
 
 | Bot name | Role |
 |---|---|

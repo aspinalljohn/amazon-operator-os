@@ -24,7 +24,7 @@ Do not spawn specialists. Compile from connected files and any specialist report
 2. From sources.md, take rows with status connected. Read those files (or URLs / pastes / MCP as listed). Newest file in a bucket wins. Do not invent a source that is missing.
 3. Pull the metrics in logic.md ## North star and ## Metrics I watch. Honor ## Exceptions and ## Overrides. If a watch metric's source is missing or unreadable, write `(not in the data)` for that metric.
 4. Compute week-over-week change where you have both weeks. If you only have one week, say so — do not guess the prior week.
-5. Write the report to `reports/weekly-report-YYYY-MM-DD.md` using today's date.
+5. Write the report to `reports/weekly-report-YYYY-MM-DD.md` using today's date. Get the date from `date +%F` when a shell is available; otherwise use the date passed by the caller, or ask the operator. Do not guess a date.
 
 ## Report shape
 

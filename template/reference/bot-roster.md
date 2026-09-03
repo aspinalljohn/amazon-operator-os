@@ -5,11 +5,13 @@ Create these six Bots in Grok Bot before `/operator-setup`. Use these exact name
 | Bot name | Role | Enable these skills (Settings → Plugins → Yours) |
 |---|---|---|
 | **Ops** | Setup, `/prove`, `/weekly`, morning brief, routing | operator-setup, operator-prove, operator-sources, operator-logic, weekly-operator-report, overnight-ops, install-overnight |
-| **Listing** | Listing audit | listing-audit (+ title, Q&A, attributes, AI-shopping skills bundled in listing-audit) |
+| **Listing** | Listing audit | listing-audit, amazon-title-compress, amazon-qa-generator, amazon-attribute-fill-rate, amazon-ai-shopping-visibility-audit |
 | **Ads** | PPC exception brief | ppc-exception-brief |
 | **Inventory** | Cover / stockout risk | inventory-risk |
 | **Customer** | Review intelligence + reply drafts | review-intelligence |
 | **Creative** | Image-stack + A+ briefs (text only) | image-stack-brief, aplus-brief |
+
+Listing runs all five of its skills into **one** artifact (`reports/listing-audit-<asin>.md`). Enable all five so the sections are available.
 
 ## First message to Ops (after kit is on `/workspace/`)
 

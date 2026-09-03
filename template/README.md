@@ -10,7 +10,7 @@ This folder lives on that cloud computer at:
 
 Six Bots read your Amazon exports, apply **your** rules, and write reports here. They do not log into Seller Central for you or change live listings or ads.
 
-Full install steps (Mac, Windows, Linux): see **`docs/INSTALL.md`** in the kit repo or your purchase email.
+Full install steps (Mac, Windows, Linux): see **`docs/INSTALL.md`** — included in this folder and in your purchase email.
 
 ---
 
@@ -122,15 +122,19 @@ This creates a **Routine** on the cloud computer (e.g. 5am weekdays). Your lapto
 /workspace/<your-brand>-ops/
 ├── README.md              ← this file
 ├── AGENTS.md              ← every Bot reads this first
+├── docs/                  ← INSTALL, EXPORTS, examples (shipped in the zip)
+├── .grok/                 ← skills and agents the Bots use
 ├── exports/               ← YOU drop CSVs (read-only for Bots)
 ├── reference/
+│   ├── bot-roster.md      ← six Bot names + skills to enable
 │   ├── sources.md         ← your data wiring
 │   ├── logic.md           ← your metrics and flags
 │   ├── how-to-refresh.md  ← your export checklist
 │   ├── brand.md, asins.md, delivery.md
 ├── reports/               ← finished artifacts (dated)
 ├── drafts/                ← review reply drafts
-└── logs/                  ← overnight logs (if used)
+├── logs/                  ← overnight logs (if used)
+└── bin/                   ← Grok Build CLI only — ignore on Grok Bot
 ```
 
 ---
@@ -184,3 +188,5 @@ Power users who want a folder on `~/Documents/` and macOS launchd instead of Gro
 ## Help
 
 Reply to your purchase email with your scoreboard lines and the path to `reports/`. Support gets you to a green `/prove` and a `logic.md` that sounds like you.
+
+Support scope, usage costs, and refund window: `docs/SUPPORT.md`.

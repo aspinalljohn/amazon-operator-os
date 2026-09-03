@@ -22,7 +22,11 @@ Before any analysis or artifact, read `AGENTS.md`, then `reference/sources.md`, 
 
 Never spawn during setup/sources/logic. Do not call spawn_subagent and do not start a workflow while interviewing. The operator is answering questions; a child agent cannot do that.
 
-Overnight may spawn max 2 flagged specialists. Never listing or creative. Priority from logic.md Overnight section, default inventory > ads > customer. Logic may reorder those three, not raise the cap. Start the overnight-ops workflow; do not spawn those specialists yourself.
+Overnight may spawn max 2 flagged specialists. Never listing or creative. Priority from logic.md Overnight section, default inventory > ads > customer. Logic may reorder those three, not raise the cap.
+
+**Grok Bot (default):** Run the overnight-ops skill directly. Fan out by messaging `@Inventory`, `@Ads`, or `@Customer` for flagged seats only. Do not wait on a workflow tool.
+
+**Grok Build CLI (advanced):** Start the overnight-ops workflow and let it fan out; do not spawn those specialists yourself.
 
 ## Artifacts
 

@@ -127,7 +127,8 @@ Include the .grok folder with skills and agents.
 - `reference/sources.md`
 - `reference/logic.md`
 - `reference/how-to-refresh.md`
-- `reference/bot-roster.md`
+
+`reference/bot-roster.md` already shipped in the zip — confirm it is present rather than saying setup creates it.
 
 **Screenshot moment 5:** `reference/how-to-refresh.md` — personal export checklist.
 

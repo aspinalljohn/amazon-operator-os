@@ -1,0 +1,51 @@
+Amazon Operator OS — Commercial Kit License
+
+Copyright (c) 2026 John Aspinall / Operator Intelligence. All rights reserved.
+
+This repository and the distributed kit ("the Kit") are licensed, not sold.
+
+GRANT
+
+Upon purchase, the buyer receives a non-exclusive, non-transferable license to
+use the Kit to operate their own Amazon business, including internal use by
+their employees and contractors working on that business.
+
+The buyer may modify the Kit's reference files, skills, and agent definitions
+for their own internal use.
+
+RESTRICTIONS
+
+The buyer may not:
+
+1. Resell, sublicense, rent, or redistribute the Kit or any substantial part
+   of it, whether modified or unmodified.
+2. Publish the Kit's contents publicly, including in public repositories,
+   courses, or templates.
+3. Use the Kit to provide the same productized offering to third parties as a
+   service or agency deliverable without a separate written agreement.
+4. Remove or obscure this license or attribution from distributed files.
+
+NO WARRANTY
+
+THE KIT IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
+INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
+PARTICULAR PURPOSE, AND NONINFRINGEMENT.
+
+The Kit produces AI-generated analysis from files the buyer supplies. Outputs
+may be incomplete or incorrect. The buyer is responsible for verifying any
+number, recommendation, or draft before acting on it. Nothing in the Kit
+constitutes financial, legal, or business advice.
+
+LIMITATION OF LIABILITY
+
+IN NO EVENT SHALL THE COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES, LOST
+PROFITS, LOST INVENTORY, ADVERTISING SPEND, OR OTHER LIABILITY ARISING FROM THE
+USE OF THE KIT.
+
+THIRD-PARTY SERVICES
+
+The Kit runs on Grok Bot / Grok Build, provided by xAI and subject to their
+terms and pricing. The buyer is responsible for their own subscription, usage
+costs, and compliance with Amazon's terms of service.
+
+Questions: john@goaspi.com

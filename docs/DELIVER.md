@@ -75,7 +75,8 @@ Create these **exact names** before setup (see `template/reference/bot-roster.md
 **Also include:**
 
 - Link to Drive walkthrough
-- [`docs/INSTALL.md`](./INSTALL.md) (or PDF export)
+- [`docs/INSTALL.md`](./INSTALL.md) (also inside the zip)
+- [`docs/SUPPORT.md`](./SUPPORT.md) — support scope, usage costs, refund window
 - Do **not** attach `GROK-BUILD-ADVANCED.md` unless they ask for CLI
 
 **Subject:** `Amazon Operator OS — kit + walkthrough`

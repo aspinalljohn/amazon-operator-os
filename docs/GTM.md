@@ -58,7 +58,7 @@ Go-to-market checklist and positioning. Confirm price at checkout ($997 per desi
 | **Compliance** | Policy / account health | Overlaps Ops flags; SP-API later |
 | **Catalog** | Parent/child / variation fixes | Overlaps Listing; split only if listing audit too heavy |
 
-**Optional v1.1 without a seventh Bot:** a **group chat** with all six (documented in `reference/bot-roster.md`) — visibility, not a new seat.
+**Optional v1.1 without a seventh Bot:** a **group chat** with all six (documented in `template/reference/bot-roster.md`) — visibility, not a new seat.
 
 ---
 
@@ -88,6 +88,9 @@ Go-to-market checklist and positioning. Confirm price at checkout ($997 per desi
 ### Legal / IP
 
 - [ ] Operator-generic skills only (no client brands in repo)
+- [ ] `LICENSE` shipped and linked in delivery email
+- [ ] `docs/SUPPORT.md` linked (scope, refunds, usage costs)
+- [ ] `CHANGELOG.md` version bumped; `plugin.json` version matches
 - [ ] Grok Bot / xAI terms — buyer brings own subscription
 
 ---
@@ -124,9 +127,9 @@ Go-to-market checklist and positioning. Confirm price at checkout ($997 per desi
 |---|---|
 | `template/README.md` | In zip — start here |
 | `docs/INSTALL.md` | Platform install |
-| `reference/bot-roster.md` | Six Bot names + skills |
-| `docs/EXPORTS.md` | Export catalog |
+| `reference/bot-roster.md` (in the buyer folder) | Six Bot names + skills || `docs/EXPORTS.md` | Export catalog |
 | `docs/DRIVE-WALKTHROUGH.md` | Video script (you record) |
+| `docs/SUPPORT.md` | Support scope, refunds, usage costs |
 | `docs/GROK-BUILD-ADVANCED.md` | Power users only — do not lead with this |
 
 ---

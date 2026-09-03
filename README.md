@@ -43,6 +43,8 @@ Skills (`SKILL.md`), agents (`.grok/agents/`), and `AGENTS.md` work in both envi
 | [`template/README.md`](./template/README.md) | **Brand owner** — in the zip |
 | [`docs/INSTALL.md`](./docs/INSTALL.md) | **Brand owner** — Grok Bot install (Mac / Win / Linux) |
 | [`docs/GTM.md`](./docs/GTM.md) | **Launch checklist**, sales bullets, bot roster decision |
+| [`docs/SUPPORT.md`](./docs/SUPPORT.md) | Buyer-facing support scope, refunds, usage costs |
+| [`CHANGELOG.md`](./CHANGELOG.md) | Version history |
 | [`docs/DRIVE-WALKTHROUGH.md`](./docs/DRIVE-WALKTHROUGH.md) | **Record once** — video script + screenshot beats |
 | [`docs/GROK-BUILD-ADVANCED.md`](./docs/GROK-BUILD-ADVANCED.md) | Local CLI optional path |
 | [`docs/EXPORTS.md`](./docs/EXPORTS.md) | Export catalog |
@@ -159,3 +161,10 @@ Grok Bot (buyer)
 - [ ] `bash scripts/sync-template-grok.sh` after plugin edits
 - [ ] Buyer docs say **Grok Bot app**, not CLI install
 - [ ] Pre-ship live `/prove` on Grok Bot (see QA.md)
+- [ ] `CHANGELOG.md` updated for buyer-visible changes
+
+---
+
+## License / IP
+
+Operator-generic skills only. Private repo. Commercial kit license in [`LICENSE`](./LICENSE) — single-brand use, no resale. Buyer-facing terms in [`docs/SUPPORT.md`](./docs/SUPPORT.md). Do not ship buyer webhook URLs, xAI keys, or Seller Central credentials in commits.

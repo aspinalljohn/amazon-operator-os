@@ -34,8 +34,7 @@ def main() -> int:
             fail("marketplace.json must list plugin amazon-operator-os")
     for rel in [
         "template/README.md",
-        "template/AGENTS.md",
-        "template/exports/sales/README.md",
+        "template/AGENTS.md",        "template/exports/sales/README.md",
         "template/exports/ads/README.md",
         "template/exports/inventory/README.md",
         "template/exports/reviews/README.md",
@@ -52,16 +51,30 @@ def main() -> int:
         "docs/GROK-BUILD-ADVANCED.md",
         "docs/GTM.md",
         "docs/DRIVE-WALKTHROUGH.md",
+        "docs/SUPPORT.md",
+        "docs/QA.md",
+        "docs/DELIVER.md",
+        "docs/WHAT-GOOD-LOOKS-LIKE.md",
+        "LICENSE",
+        "CHANGELOG.md",
     ]:
         require(ROOT / rel)
     install_doc = ROOT / "docs" / "INSTALL.md"
     if install_doc.exists() and "Grok Bot" not in install_doc.read_text():
         fail("docs/INSTALL.md must describe Grok Bot app install, not CLI-only")
     buyer_readme = TEMPLATE / "README.md"
-    if buyer_readme.exists() and "Grok CLI" in buyer_readme.read_text():
-        low = buyer_readme.read_text().lower()
-        if "do not" not in low and "not need" not in low and "ignore" not in low:
-            fail("template/README.md must not tell buyers to install Grok CLI without negation")
+    if buyer_readme.exists():
+        br = buyer_readme.read_text()
+        if "Grok CLI" in br:
+            low = br.lower()
+            if "do not" not in low and "not need" not in low and "ignore" not in low:
+                fail("template/README.md must not tell buyers to install Grok CLI without negation")
+        for cli_only in ["grok login", "curl -fsSL https://x.ai/cli"]:
+            if cli_only in br:
+                fail(f"template/README.md must not instruct buyers to run {cli_only}")
+    zip_script = ROOT / "scripts" / "build-zip.sh"
+    if zip_script.exists() and "docs/" not in zip_script.read_text():
+        fail("build-zip.sh must ship buyer docs inside the zip")
     sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
     if "# Sources" not in sources:
         fail("template/reference/sources.md must start with a # Sources heading")
@@ -250,6 +263,50 @@ def main() -> int:
         fail("overnight-ops skill missing agent_budget 8")
     require(TEMPLATE / "bin" / "overnight.sh")
     require(TEMPLATE / "bin" / "overnight.plist.example")
+    require(TEMPLATE / "bin" / "README.md")
+    for cmd_name in ["prove", "weekly"]:
+        c = PLUGIN / "commands" / f"{cmd_name}.md"
+        if c.exists() and "Grok Bot" not in c.read_text():
+            fail(f"commands/{cmd_name}.md must give a Grok Bot path, not workflow-only")
+    if ops.exists() and "Grok Bot" not in ops.read_text():
+        fail("ops.md must give a Grok Bot overnight path, not workflow-only")
+    roster = TEMPLATE / "reference" / "bot-roster.md"
+    require(roster)
+    if roster.exists():
+        rt = roster.read_text()
+        for bot in ["Ops", "Listing", "Ads", "Inventory", "Customer", "Creative"]:
+            if f"**{bot}**" not in rt:
+                fail(f"bot-roster.md missing Bot {bot}")
+        for named in [
+            "operator-setup",
+            "operator-prove",
+            "weekly-operator-report",
+            "overnight-ops",
+            "install-overnight",
+            "listing-audit",
+            "ppc-exception-brief",
+            "inventory-risk",
+            "review-intelligence",
+            "image-stack-brief",
+            "aplus-brief",
+        ]:
+            if named in rt and not (PLUGIN / "skills" / named / "SKILL.md").exists():
+                fail(f"bot-roster.md names skill {named} which does not exist on disk")
+    for sub in ["agents", "skills", "personas", "workflows", "commands"]:
+        src = PLUGIN / sub
+        dst = TEMPLATE / ".grok" / sub
+        if not dst.exists():
+            fail(f"template/.grok/{sub} missing — run scripts/sync-template-grok.sh")
+            continue
+        src_files = {p.relative_to(src): p for p in src.rglob("*") if p.is_file()}
+        dst_files = {p.relative_to(dst): p for p in dst.rglob("*") if p.is_file()}
+        for rel in sorted(set(src_files) | set(dst_files)):
+            if rel not in dst_files:
+                fail(f"template/.grok/{sub}/{rel} missing — run scripts/sync-template-grok.sh")
+            elif rel not in src_files:
+                fail(f"template/.grok/{sub}/{rel} is stale — run scripts/sync-template-grok.sh")
+            elif src_files[rel].read_bytes() != dst_files[rel].read_bytes():
+                fail(f"template/.grok/{sub}/{rel} out of sync — run scripts/sync-template-grok.sh")
     require(TEMPLATE / ".grok" / "commands" / "operator-setup.md")
     require(TEMPLATE / ".grok" / "commands" / "install-overnight.md")
     nested_cmd = TEMPLATE / ".grok" / "commands" / "commands"

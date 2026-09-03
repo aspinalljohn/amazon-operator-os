@@ -2,6 +2,8 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
+> **SUPERSEDED IN PART (Grok Bot pivot).** This plan was written when Grok Build CLI was the buyer runtime. The shipped product now defaults to **Grok Bot** (desktop app, `/workspace/<brand>-ops/` cloud folder, six named Bots, Routines for scheduling). Grok Build CLI, `.rhai` workflows, and launchd are the optional advanced path in `docs/GROK-BUILD-ADVANCED.md`. Where this plan says "Grok CLI", "`~/Documents/<brand>-ops/`", "`--yolo`", or "Windows overnight out of v1", follow `docs/INSTALL.md`, `docs/GTM.md`, and the current `2026-09-01-amazon-operator-os-design.md` instead. Task structure and QA intent remain valid.
+
 **Goal:** Ship a self-serve Grok kit that puts six named agents in an Amazon brand owner's business folder, interviews them (parent session only) for sources and logic, and proves all six artifacts from fixtures.
 
 **Architecture:** One private repo is both a Grok plugin and a zip-able business-folder template. Skills are generic procedures. Buyer-specific wiring lives in `reference/sources.md` and `reference/logic.md`, captured by the main agent during `/operator-setup`. Specialists are custom Grok agent types spawned only after setup, never during the interview.

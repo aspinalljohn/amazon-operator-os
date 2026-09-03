@@ -1,6 +1,6 @@
 ---
 name: overnight-ops
-description: Unattended overnight operator run. Pulls daily connected sources, checks them against logic.md, writes a morning brief, fans out at most 2 flagged specialists (never listing or creative), and optionally POSTs the brief. Failure-safe — a missing source never produces a silent empty no-op. Use when the operator says "run overnight", "morning brief", /overnight --now, or a scheduled overnight wrapper fires.
+description: Unattended overnight operator run. On Grok Bot this runs from a Routine or /overnight --now; on Grok Build CLI a wrapper may start the overnight-ops workflow. Pulls daily connected sources, checks them against logic.md, writes a morning brief, fans out at most 2 flagged specialists (never listing or creative), and optionally POSTs the brief. Failure-safe — a missing source never produces a silent empty no-op. Use when the operator says "run overnight", "morning brief", /overnight --now, or a scheduled run fires.
 when_to_use: Scheduled unattended run, or a noon dry-run of the overnight brief. Not for the weekly report.
 allowed-tools:
   - Read

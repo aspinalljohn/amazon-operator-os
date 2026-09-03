@@ -42,7 +42,7 @@ Pass that ASIN to the workflow when you have one.
 
 ## 3. Fan-out
 
-Start workflow `weekly-ops`:
+**Grok CLI (workflow path):** If the runtime supports Grok workflows, start workflow `weekly-ops`:
 
 - Prefer `name: "weekly-ops"` or `script_path` `.grok/workflows/weekly-ops.rhai`
 - If the host refuses the path for folder trust, pass `script` as the contents of `.grok/workflows/weekly-ops.rhai` (inline) with the same args
@@ -53,6 +53,12 @@ Start workflow `weekly-ops`:
 - `validate_only`: false
 
 Do not spawn listing/ads/inventory/customer/creative yourself. The workflow Phase 1 runs those five in `parallel()` with `capability_mode: "read-write"`. Phase 2 ops writes `reports/weekly-report-YYYY-MM-DD.md`.
+
+**Grok Bot (no workflow runner):** Do not call `spawn_subagent`. Run the five specialist seats yourself in this session by following each `.grok/agents/<seat>.md` and its skill — listing, ads, inventory, customer, creative — and writing each artifact under `reports/`. Listing and Creative share the prove ASIN from step 2. Then follow `weekly-operator-report` and write `reports/weekly-report-YYYY-MM-DD.md`.
+
+Alternatively, if setup created six Grok Bots, assign each specialist seat to the matching bot (message each bot with its artifact path and date), wait until all five specialist files exist on disk, then write the weekly report yourself and print the scoreboard.
+
+Do not invent numbers. Do not edit `exports/`.
 
 ## 4. Scoreboard
 

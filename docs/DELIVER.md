@@ -33,7 +33,7 @@ From: **john@goaspi.com**
 
 Attachment: `dist/amazon-operator-os.zip` built with `bash scripts/build-zip.sh` (syncs `template/.grok/` from the plugin, then zips `template/`).
 
-Also attach or link: `docs/INSTALL.md`. Catalog is `docs/EXPORTS.md` inside the repo; the zip's live list is the refresh card setup writes.
+Also attach or link: `docs/INSTALL.md` and `docs/EXPORTS.md` (these are copied into the zip root as `INSTALL.md` and `EXPORTS.md` when built).
 
 Subject line can be short: `Amazon Operator OS — zip + walkthrough`.
 

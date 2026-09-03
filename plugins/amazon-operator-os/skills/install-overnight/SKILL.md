@@ -25,7 +25,7 @@ A Mac that sleeps will miss the 5am run. Use an always-on Mac mini, disable slee
 
 ## Install (macOS)
 
-1. Confirm cwd is the business folder (has `AGENTS.md`, `bin/overnight.sh`, `bin/overnight.plist.example`, `reference/logic.md`). If `bin/overnight.sh` is missing, copy it from the kit `template/bin/`.
+1. Confirm cwd is the business folder (has `AGENTS.md`, `bin/overnight.sh`, `bin/overnight.plist.example`, `reference/logic.md`). If `bin/overnight.sh` is missing, the folder was not fully unzipped — re-unzip the kit zip.
 2. `chmod +x bin/overnight.sh`
 3. Resolve `OPS_DIR` as this folder's absolute path (`pwd -P`).
 4. Read `bin/overnight.plist.example`. Replace every `__OPS_DIR__` with that absolute path. Do not leave the placeholder.

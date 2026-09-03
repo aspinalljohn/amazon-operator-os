@@ -42,18 +42,20 @@ Attach `amazon-operator-os.zip` (from your email) to this agent:
 Then send your first task. Copy-paste is fine:
 
 ```text
-This zip is Amazon Operator OS. Unzip it in the workspace, then run /operator-setup.
+This zip is Amazon Operator OS. Unzip it to a folder named for my brand (e.g. northline-ops/), cd into that folder, then run /operator-setup.
 
-From the unpacked kit:
-- Use the business folder template and .grok/ agent definitions
-- Interview me for brand, sources, and logic in this same conversation
-- Create focused Grok Bot agents for the six seats (Ops, Listing, Ads, Inventory, Customer, Creative) using the profiles in .grok/agents/
-- Do not send me to /sources or /logic as homework — do it all here
+The zip is the business folder — at the root you should see AGENTS.md, .grok/, exports/, and reference/. There is no inner template/ folder.
 
-When setup finishes, tell me where the business folder lives and what to drop first.
+From there:
+- Fill AGENTS.md and reference/ from my answers (do not copy from elsewhere)
+- Interview me for sources and logic in this same conversation
+- Create focused Grok Bot agents for the six seats using .grok/agents/ (Ops, Listing, Ads, Inventory, Customer, Creative)
+- Do not send me to /sources or /logic as homework
+
+When setup finishes, tell me the business folder path and what to drop first in exports/.
 ```
 
-The agent unpacks the zip, writes your business folder under the workspace, runs the sources and logic interviews, and creates the specialist bots from the kit's agent definitions.
+The agent unpacks the zip into a business folder (`AGENTS.md`, `.grok/`, `exports/`, `reference/` at the root), runs the interviews, and creates the specialist bots from `.grok/agents/`.
 
 ---
 
@@ -139,4 +141,4 @@ Most buyers never need this. Re-attach a fresh zip to your Ops bot if you prefer
 
 ## What to export from Amazon
 
-Catalog of known report shapes: [`docs/EXPORTS.md`](EXPORTS.md). Your live list is the refresh card setup writes, not the full catalog.
+Catalog of known report shapes: `EXPORTS.md` in the zip (or [`docs/EXPORTS.md`](EXPORTS.md) in this repo). Your live list is the refresh card setup writes, not the full catalog.

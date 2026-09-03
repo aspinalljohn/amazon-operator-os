@@ -53,7 +53,7 @@ Your Ops agent unpacks the kit, interviews you for brand/sources/logic in that s
 
 `/prove` is green when six artifacts exist on disk. A file full of `(not in the data)` still counts. A watch metric with no source is named on the scoreboard; that does not fail `/prove`.
 
-Step-by-step (including the first message to paste): [`docs/INSTALL.md`](docs/INSTALL.md). What to export from Amazon: [`docs/EXPORTS.md`](docs/EXPORTS.md). Your live list is the refresh card setup writes, not the full catalog.
+Step-by-step (including the first message to paste): [`docs/INSTALL.md`](docs/INSTALL.md) (also `INSTALL.md` inside the zip). What to export from Amazon: [`docs/EXPORTS.md`](docs/EXPORTS.md) (also `EXPORTS.md` inside the zip). Your live list is the refresh card setup writes, not the full catalog.
 
 ## Commands
 
@@ -62,8 +62,8 @@ Step-by-step (including the first message to paste): [`docs/INSTALL.md`](docs/IN
 | `/operator-setup` | Day one. Writes the business folder, then interviews sources + logic. |
 | `/prove` | Smoke test on *your* files. Six artifacts + a two-line scoreboard. |
 | `/weekly` | Same fan-out, dated for this week. The operating command after the first prove. |
-| `/listing-audit <asin>` | Named listing audit. |
-| `/creative-brief <asin>` | Named image-stack + A+ brief. |
+| `/listing-audit <asin>` | Ask your **Listing** bot, or Ops to route listing work |
+| `/creative-brief <asin>` | Ask your **Creative** bot, or Ops to route creative work |
 | `/sources` | Re-interview or add a source after day one. |
 | `/logic` | Change a rule. `/logic add If hero cover < 21 days, throttle ads` appends. |
 | `/install-overnight` | Optional. 5am local brief on Mac. Only after `/prove` is 6/6. |
@@ -88,7 +88,7 @@ All bots share the workspace filesystem. Files dropped into `exports/` are visib
 
 ## Your business folder
 
-Setup writes your business folder in the Grok Bot workspace (often `~/Documents/<brand-slug>-ops/` on your machine, or under `/workspace` in the cloud computer). Work from **that** folder — not from the kit zip you attached on day one.
+Setup writes your business folder in the Grok Bot workspace (e.g. `<brand-slug>-ops/` with `AGENTS.md` and `.grok/` at the root). Work from **that** folder — not from the zip attachment.
 
 ```
 <brand>-ops/

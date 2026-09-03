@@ -1,6 +1,8 @@
 # Operator onboarding — what you need vs what you export
 
-Read this once during `/operator-setup` or right after. It separates two things operators often mix up.
+**Start with `START-HERE.md`** (30-second version). This file is the full guide.
+
+Read once during `/operator-setup` or right after. It separates two things operators often mix up.
 
 ---
 

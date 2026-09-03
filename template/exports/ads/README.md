@@ -1,1 +1,3 @@
-Typical drop: Ads console Sponsored Products campaign and search term reports (`sp-campaigns.csv`, `sp-search-terms.csv`). Drop the newest file here. `/sources` maps it.
+# exports/ads/
+
+**Not a Grok connection.** Export from **Amazon Ads → Sponsored Products** — campaign report and search term report. Typical files: `sp-campaigns.csv`, `sp-search-terms.csv`. Drop here.

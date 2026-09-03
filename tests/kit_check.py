@@ -35,6 +35,8 @@ def main() -> int:
     for rel in [
         "template/AGENTS.md",
         "template/exports/sales/README.md",
+        "template/exports/README.md",
+        "template/START-HERE.md",
         "template/exports/ads/README.md",
         "template/exports/inventory/README.md",
         "template/exports/reviews/README.md",
@@ -57,6 +59,12 @@ def main() -> int:
     wyn = (TEMPLATE / "reference" / "what-you-need.md").read_text() if (TEMPLATE / "reference" / "what-you-need.md").exists() else ""
     if "not Grok connections" not in wyn.lower() and "manual" not in wyn.lower():
         fail("template/reference/what-you-need.md must distinguish exports from Grok connections")
+    htr = (TEMPLATE / "reference" / "how-to-refresh.md").read_text() if (TEMPLATE / "reference" / "how-to-refresh.md").exists() else ""
+    if "manual exports" not in htr.lower() and "not grok" not in htr.lower():
+        fail("template/reference/how-to-refresh.md must remind operators exports are manual, not Grok connections")
+    start = (TEMPLATE / "START-HERE.md").read_text() if (TEMPLATE / "START-HERE.md").exists() else ""
+    if "Bucket A" not in start and "Grok" not in start:
+        fail("template/START-HERE.md must define Grok vs export buckets")
     sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
     if "# Sources" not in sources:
         fail("template/reference/sources.md must start with a # Sources heading")

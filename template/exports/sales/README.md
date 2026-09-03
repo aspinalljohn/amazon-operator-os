@@ -1,1 +1,5 @@
-Typical drop: Seller Central Business Report (Detail Page Sales and Traffic by Child Item), saved as `business-report.csv`. Drop the newest file here. `/sources` maps it.
+# exports/sales/
+
+**Not a Grok connection.** Export from **Seller Central → Business Reports → Detail Page Sales and Traffic by Child Item**. Save as `business-report.csv` (or any name — newest file wins). Drop here.
+
+Do not look for a Seller Central plugin in Grok Bot settings.

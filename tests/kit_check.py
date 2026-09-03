@@ -47,6 +47,9 @@ def main() -> int:
         "template/reference/delivery.md",
         "docs/INSTALL.md",
         "docs/EXPORTS.md",
+        "docs/WHAT-GOOD-LOOKS-LIKE.md",
+        "docs/DELIVER.md",
+        "docs/QA.md",
     ]:
         require(ROOT / rel)
     sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
@@ -196,6 +199,7 @@ def main() -> int:
                 fail(f"weekly-ops.rhai missing {needle}")
     require(PLUGIN / "skills" / "operator-prove" / "SKILL.md")
     require(PLUGIN / "commands" / "prove.md")
+    require(PLUGIN / "commands" / "operator-setup.md")
     require(PLUGIN / "commands" / "weekly.md")
     require(ROOT / "scripts" / "load-fixtures.sh")
     owf = PLUGIN / "workflows" / "overnight-ops.rhai"
@@ -240,6 +244,26 @@ def main() -> int:
             fail("overnight.sh missing -p prompt")
         if "--yolo" in sh:
             fail("overnight.sh still uses --yolo")
+    grok = TEMPLATE / ".grok"
+    for rel in [
+        "workflows/weekly-ops.rhai",
+        "workflows/overnight-ops.rhai",
+        "commands/prove.md",
+        "commands/operator-setup.md",
+        "commands/overnight.md",
+        "commands/weekly.md",
+        "commands/sources.md",
+        "commands/logic.md",
+        "personas/operator.toml",
+    ]:
+        require(grok / rel, f"missing template/.grok/{rel} — run scripts/sync-template-grok.sh")
+    for nested in [
+        grok / "workflows" / "workflows",
+        grok / "commands" / "commands",
+        grok / "personas" / "personas",
+    ]:
+        if nested.exists():
+            fail(f"template/.grok has nested {nested.relative_to(ROOT)} — fix scripts/sync-template-grok.sh")
     if failures:
         print("FAIL")
         for f in failures:

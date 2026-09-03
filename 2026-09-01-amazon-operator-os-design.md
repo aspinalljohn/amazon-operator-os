@@ -1,7 +1,7 @@
 # Amazon Operator OS — Design Spec
 
 Date: 2026-09-01
-Status: draft for review
+Status: v1 ship candidate
 Venture: Operator Intelligence
 Working name: Amazon Operator OS
 
@@ -119,6 +119,7 @@ amazon-operator-os/
       weekly-ops.rhai
       overnight-ops.rhai
     commands/
+      operator-setup.md
       prove.md
       sources.md
       logic.md
@@ -138,6 +139,7 @@ amazon-operator-os/
     EXPORTS.md
     WHAT-GOOD-LOOKS-LIKE.md
     DELIVER.md      # John's fulfillment SOP
+    QA.md           # Ship gate matrix
 ```
 
 The zip is `template/` plus vendored `.grok/` (agents, skills, workflows). The plugin is the same agents/skills without the buyer's files.
@@ -535,11 +537,11 @@ Buyer can talk to Ops in English ("should I keep spending on the moisturizer SKU
 **Delivery (John):** same muscle as Second Brain DIY Kit.
 
 1. Payment lands.
-2. Share Drive walkthrough (Grok install → `/operator-setup` → `/sources` → `/logic` → drop one of *their* files → `/prove`).
+2. Share Drive walkthrough (Grok install → unzip → `/operator-setup` in one sitting → drop one of *their* files → `/prove`).
 3. Email zip from john@goaspi.com (`amazon-operator-os.zip`) plus, if they have a GitHub username, invite to `aspinalljohn/amazon-operator-os`.
 4. Log the buyer (reuse the kit buyers-log pattern; new tab or file `amazon-operator-os-buyers-log.md`).
 
-**What's in the box:** zip, INSTALL.md, EXPORTS.md (catalog), plugin/repo access, six agents, `/sources`, `/logic`, `/prove`, optional overnight.
+**What's in the box:** zip, INSTALL.md, EXPORTS.md (catalog), plugin/repo access, six agents, `/operator-setup`, `/sources`, `/logic`, `/prove`, `/weekly`, optional overnight.
 
 **What's not:** image generation, Seller Central login work, custom skill writing, Claude Code dual install, Windows overnight, advisory time.
 

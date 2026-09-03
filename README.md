@@ -6,7 +6,7 @@ You drop the reports you already export. You tell the OS which numbers you actua
 
 Grok Bot is the runtime. You create **one blank agent**, drop the kit zip, and that agent unpacks the OS, interviews you, and creates your six-operator team (Ops, Listing, Ads, Inventory, Customer, Creative). You do not edit skills. You do not connect Seller Central APIs. Missing data is written as `(not in the data)`, never invented.
 
-**New here?** Read **`ONBOARDING.md`** first (in the zip) — it separates Grok connections from manual exports. Then: [install Grok Bot](docs/INSTALL.md) → blank agent → drop zip → `/operator-setup` → drop a file → `/prove`.
+**New here?** Unzip → open **`START-HERE.md`** → then **`ONBOARDING.md`** → [INSTALL.md](docs/INSTALL.md) for steps.
 
 ---
 

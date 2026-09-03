@@ -8,16 +8,29 @@ You (John) do this. Buyers do not see this file as a homework list.
 
 ## After payment
 
-1. **Share the Drive walkthrough** (record once, reuse).
-2. **Email the zip** from john@goaspi.com.
-3. **Optional GitHub invite** if they sent a username.
-4. **Log the buyer** in `amazon-operator-os-buyers-log.md`.
+1. **Email the zip** from john@goaspi.com (text onboarding is in the zip — no video required).
+2. **Optional GitHub invite** if they sent a username.
+3. **Log the buyer** in `amazon-operator-os-buyers-log.md`.
 
 Do not start custom skill work. Do not log into Seller Central for them.
 
-## Drive walkthrough (outline)
+## Text onboarding (no video)
 
-One sitting. Camera on **Grok Bot**, not a terminal sales deck.
+Buyers self-serve from files in the zip. Nothing to record.
+
+| File | When they read it |
+|---|---|
+| **`START-HERE.md`** | First — two buckets in 30 seconds |
+| **`ONBOARDING.md`** | Before first export — full guide + checklist |
+| **`INSTALL.md`** | Step-by-step Grok Bot install |
+| **`reference/what-you-need.md`** | During setup — short card in business folder |
+| **`exports/README.md`** | When dropping first CSV — reminds them it is not a Grok plugin |
+
+Setup (`/operator-setup`) reads `START-HERE.md` aloud and confirms understanding before the interview.
+
+## Drive walkthrough (optional — skip if no time)
+
+Only if you later record one. Camera on **Grok Bot**, not a terminal. Outline:
 
 1. **Grok Bot install** — download from [x.ai/bot](https://x.ai/bot), sign in with xAI. macOS / Windows / Linux. Point at `docs/INSTALL.md`.
 2. **Create a blank agent** — New → Create new agent. This becomes Ops. Do not pick a suggested teammate template.
@@ -33,17 +46,26 @@ From: **john@goaspi.com**
 
 Attachment: `dist/amazon-operator-os.zip` built with `bash scripts/build-zip.sh` (syncs `template/.grok/` from the plugin, then zips `template/`).
 
-Also attach or link: `docs/INSTALL.md` and `docs/EXPORTS.md` (these are copied into the zip root as `INSTALL.md` and `EXPORTS.md` when built).
+Also attach or link: `docs/INSTALL.md` and `docs/EXPORTS.md` (copied into zip as `INSTALL.md`, `ONBOARDING.md`, `START-HERE.md`, `EXPORTS.md`).
 
-Subject line can be short: `Amazon Operator OS — zip + walkthrough`.
+Subject: `Amazon Operator OS — zip + START HERE`
 
-Body, keep it this thin:
+Body (copy-paste):
 
-- Drive walkthrough link.
-- Install Grok Bot, create blank agent, attach zip, run setup (see INSTALL.md).
-- Drop a file, `/prove` with Ops bot.
-- Reply with the path to `reports/` if `/prove` is not 6/6.
-- If they have a GitHub username, they will get an invite to `aspinalljohn/amazon-operator-os`.
+```text
+Your kit is attached.
+
+Open START-HERE.md first (inside the zip). Two buckets:
+
+  Grok-side:  Grok Bot + zip + /operator-setup  (no Seller Central plugin)
+  Your-side:  Export CSVs from Seller Central/Ads → drop in exports/
+
+Then INSTALL.md for step-by-step.
+
+Day one: Grok Bot → blank agent → attach zip → setup → one CSV in exports/sales/ → /prove.
+
+Reply with reports/ if /prove is not 6/6.
+```
 
 ## GitHub invite (optional)
 

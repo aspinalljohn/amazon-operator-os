@@ -20,9 +20,9 @@ cd <brand-slug>-ops
 
 The zip **is** the business folder skeleton. At the root you should see `AGENTS.md`, `.grok/` (agents, skills, workflows, commands), `exports/`, `reference/`, `bin/`, `reports/`, `drafts/`, `logs/`. There is no inner `template/` folder in the zip.
 
-Optional: `INSTALL.md` and `EXPORTS.md` at the zip root are the install guide and export catalog. `ONBOARDING.md` explains what is a Grok connection vs a manual export. `reference/what-you-need.md` is the short version inside the business folder.
+Optional: `START-HERE.md`, `INSTALL.md`, `ONBOARDING.md`, and `EXPORTS.md` at the zip root. Read **`START-HERE.md` first** — two buckets in 30 seconds.
 
-**Before the brand interview:** Show the operator `reference/what-you-need.md` or the "two buckets" section of `ONBOARDING.md`. Say plainly: "Seller Central is not a Grok plugin — you export CSVs and drop them in exports/. Grok Bot + this zip is all you connect on the Grok side."
+**Before the brand interview:** Read `START-HERE.md` aloud or paste its two tables into the chat. Then say plainly: "Seller Central is not a Grok plugin — you export CSVs and drop them in exports/. Grok Bot + this zip is all you connect on the Grok side." Do not start the interview until the operator confirms they understand.
 
 **GitHub repo (maintainer path):** Copy `template/` from the repo to `~/Documents/<brand-slug>-ops/` (or the workspace). That folder has the same layout as the zip.
 

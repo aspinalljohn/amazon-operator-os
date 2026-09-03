@@ -1,157 +1,127 @@
 # Install Amazon Operator OS
 
-One sitting in **Grok Bot**. Create a blank agent, drop the kit zip, run setup. The agent unpacks the kit, interviews you, and stands up your six-operator team. Drop your files, then `/prove`. Overnight is optional and last.
+One sitting in **Grok Bot**. No video required — everything is in text files inside the zip.
 
-Grok Bot is the primary runtime. [Grok CLI](https://x.ai/cli/install.sh) is only needed if you want the optional 5am overnight job on Mac.
+**Read `START-HERE.md` first** (30 seconds). It separates Grok connections from manual exports.
+
+Grok Bot is the primary runtime. [Grok CLI](https://x.ai/cli/install.sh) is only needed for optional 5am overnight on Mac.
+
+---
+
+## 0. START HERE (before anything else)
+
+Open **`START-HERE.md`** in the zip. Two buckets:
+
+| Bucket A — Grok | Bucket B — Your exports |
+|---|---|
+| Grok Bot + attach zip + `/operator-setup` | Seller Central / Ads / Helium10 → CSV → `exports/` |
+| **Not** a Seller Central plugin | **Not** a Grok connection |
+
+Full detail: **`ONBOARDING.md`**. Short card: **`reference/what-you-need.md`**.
 
 ---
 
 ## 1. Install Grok Bot
 
-Download the desktop app for your platform: [x.ai/bot](https://x.ai/bot)
+Download: [x.ai/bot](https://x.ai/bot)
 
-- **macOS** — open the disk image, drag Grok Bot to Applications, launch and sign in with your xAI account.
-- **Windows** — run the installer, open from Start, sign in.
-- **Linux** — install the `.deb`, `.rpm`, or AppImage from More downloads on x.ai/bot.
+- **macOS** — disk image → Applications → launch → sign in
+- **Windows** — installer → Start menu → sign in
+- **Linux** — `.deb`, `.rpm`, or AppImage from x.ai/bot
 
-Full steps: [Grok Bot get started](https://docs.x.ai/grok-bot/get-started)
-
-You need an eligible plan (SuperGrok Plus/Heavy or equivalent Cursor plan).
+Plan: SuperGrok Plus/Heavy or equivalent.
 
 ---
 
 ## 2. Create a blank agent
 
-This agent becomes your **Ops** lead. It will unpack the kit and create the specialist bots.
-
-1. In Grok Bot, choose **New** in the sidebar (or `Cmd/Ctrl+N`).
-2. Select **Create new agent**.
-3. Grok Bot opens a blank agent named **New Agent**.
-4. Optional: **Bot actions → Edit Profile** — rename to your brand (e.g. "Northline Ops") or leave the default for now. Setup will refine this.
-
-Do not pick a suggested teammate template. Start blank.
+1. **New** in sidebar (or `Cmd/Ctrl+N`)
+2. **Create new agent** — blank "New Agent"
+3. This becomes **Ops**. Do not pick a suggested teammate.
 
 ---
 
 ## 3. Drop the kit zip
 
-Attach `amazon-operator-os.zip` (from your email) to this agent:
-
-- Drag the zip into the composer, or use the attachment control.
-
-Then send your first task. Copy-paste is fine:
+Attach `amazon-operator-os.zip`. Paste this first message:
 
 ```text
-This zip is Amazon Operator OS. Unzip it to a folder named for my brand (e.g. northline-ops/), cd into that folder, then run /operator-setup.
+Read START-HERE.md and ONBOARDING.md first. Explain the two buckets to me in plain English before we continue.
 
-The zip is the business folder — at the root you should see AGENTS.md, .grok/, exports/, and reference/. There is no inner template/ folder.
+Then: unzip to a folder named for my brand (e.g. northline-ops/), cd into it, run /operator-setup.
 
-From there:
-- Fill AGENTS.md and reference/ from my answers (do not copy from elsewhere)
-- Interview me for sources and logic in this same conversation
-- Create focused Grok Bot agents for the six seats using .grok/agents/ (Ops, Listing, Ads, Inventory, Customer, Creative)
-- Do not send me to /sources or /logic as homework
+The zip IS the business folder (AGENTS.md, .grok/, exports/, reference/ at the root — no inner template/).
 
-When setup finishes, tell me the business folder path and what to drop first in exports/.
+Setup should:
+- Confirm I understand: Seller Central is NOT a Grok plugin — I export CSVs to exports/
+- Fill AGENTS.md and reference/ from my answers
+- Interview sources + logic inline (not /sources or /logic as homework)
+- Create six Grok Bots from .grok/agents/
+
+When done: business folder path + first file to export.
 ```
-
-The agent unpacks the zip into a business folder (`AGENTS.md`, `.grok/`, `exports/`, `reference/` at the root), runs the interviews, and creates the specialist bots from `.grok/agents/`.
-
----
-
-## 3.5 Read ONBOARDING.md (2 minutes)
-
-Before you export anything, open **`ONBOARDING.md`** in the unzipped folder (or read it in the zip before setup).
-
-It answers the two questions every operator asks:
-
-1. **What do I connect to Grok?** → Grok Bot + zip only. Optional: CLI, webhooks.
-2. **What do I connect to Amazon?** → Nothing in Grok. You export CSVs and drop them in `exports/`.
-
-Short reference inside the business folder: `reference/what-you-need.md`.
 
 ---
 
 ## 4. Drop your files
 
-Follow the generated `reference/how-to-refresh.md` — only the sources you connected, not the full catalog in `docs/EXPORTS.md`. Newest file in each `exports/` bucket wins.
+Read **`reference/how-to-refresh.md`** (setup writes your personal list).
 
-Typical first file: one Seller Central export (e.g. business report CSV) into `exports/sales/`.
+**First file:** Seller Central → Business Reports → save CSV → **`exports/sales/`**
+
+Newest file in each folder wins. Missing sources = `(not in the data)` — not a failure.
+
+Column shapes: **`EXPORTS.md`**
 
 ---
 
 ## 5. Prove
 
-Back in your Ops agent (or the business folder conversation):
+In your Ops bot:
 
 ```text
 /prove
 ```
 
-Expect six dated artifacts under `reports/`. Missing data shows as `(not in the data)`. A watch metric with no source is named on the scoreboard; that does not fail `/prove`.
-
-Green = six files exist on disk, even if some are mostly `(not in the data)`.
+Green = six files under `reports/`, even if some say `(not in the data)`.
 
 ---
 
-## 6. Run the OS day to day
+## 6. Day to day
 
-| What | Where |
+| Job | Bot |
 |---|---|
-| Weekly report, routing, morning brief | Your **Ops** bot |
-| Listing audit | **Listing** bot (or ask Ops) |
-| Ads exceptions | **Ads** bot |
-| Inventory risk | **Inventory** bot |
-| Reviews + reply drafts | **Customer** bot |
-| Creative briefs (no pixels) | **Creative** bot |
+| Weekly report, routing | **Ops** |
+| Listing audit | **Listing** |
+| Ads exceptions | **Ads** |
+| Inventory risk | **Inventory** |
+| Reviews | **Customer** |
+| Creative briefs | **Creative** |
 
-Use `/weekly` after the first green `/prove`. Talk to Ops in plain English or message a specialist bot directly.
-
-Commands reference: see the kit README or ask Ops to list them.
+`/weekly` after first green `/prove`.
 
 ---
 
 ## 7. Overnight (optional, last)
 
-Only after `/prove` is 6/6.
-
-Overnight uses **Grok CLI** on Mac — a 5am local job that runs `bin/overnight.sh` in your business folder. Grok Bot is not required for the scheduled run once CLI is installed.
+After `/prove` is 6/6. Requires **Grok CLI** on Mac:
 
 ```bash
 curl -fsSL https://x.ai/cli/install.sh | bash
 grok login
 ```
 
-Then in your business folder conversation:
+Then: `/install-overnight` → `/overnight --now` (noon dry-run).
 
-```text
-/install-overnight
-```
-
-Noon dry-run before you trust 5am:
-
-```text
-/overnight --now
-```
-
-**Mac sleep warning:** a Mac that sleeps will miss 5am. Use an always-on Mac mini, disable sleep for that window, or skip overnight and run `/weekly` by hand. Windows overnight is out of v1.
+Mac must stay awake for 5am. Windows overnight is out of v1.
 
 ---
 
 ## Updates (optional)
 
-The zip already ships skills and agent definitions under `.grok/`. For plugin-style updates from GitHub:
+Re-attach a fresh zip, or:
 
 ```bash
-curl -fsSL https://x.ai/cli/install.sh | bash   # if not installed
 grok plugin marketplace add aspinalljohn/amazon-operator-os
 grok plugin install amazon-operator-os --trust
 ```
-
-Most buyers never need this. Re-attach a fresh zip to your Ops bot if you prefer.
-
----
-
-## What to export from Amazon
-
-Catalog of known report shapes: `EXPORTS.md` in the zip (or [`docs/EXPORTS.md`](EXPORTS.md) in this repo). Your live list is the refresh card setup writes, not the full catalog.

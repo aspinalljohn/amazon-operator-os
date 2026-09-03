@@ -28,7 +28,7 @@ Open Grok in that folder for live rows. Headless `/prove` has previously hit `--
 | 1 | `/prove --fixtures` with fixture `logic.md` (TACOS + cover, not ACOS-only) | In `/tmp/northline-ops` after load-fixtures: `/prove` (or `/prove --fixtures` from an empty exports folder). | Six artifacts under `reports/`. Weekly north star is TACOS. Ads brief does not treat 35% ACOS as the flag. |
 | 2 | Delete ads source and re-prove | Remove `exports/ads/*` (leave README). Set `ads-campaigns` and `ads-search-terms` status to missing in `reference/sources.md`. `/prove`. | Ads artifact exists. TACOS and wasted spend are `(not in the data)`. Scoreboard: `TACOS = no source.` (and wasted spend if that row has no source). Artifacts still 6/6. |
 | 3 | Wrong-columns CSV | Replace a connected CSV with a file that is missing the catalog columns in `docs/EXPORTS.md`. `/prove` or run that seat. | Agent names the file and the expected columns. Does not guess numbers. |
-| 4 | Overnight, inventory cover only | Keep hero cover under the logic flag (B0FIXTURE1 DoS 12 < 21). Clear ads flags: drop the wasted term or set its spend ≤ $20, leave TACOS under 22%. `/overnight --now` (wrapper `bin/overnight.sh`). | Ops + inventory specialist only (1 of 2). Brief attaches `reports/inventory-risk-YYYY-MM-DD.md`. No ads, listing, or creative spawn. |
+| 4 | Overnight, inventory cover only | Keep hero cover under the logic flag (B0FIXTURE1 DoS 12 < 21). Clear ads flags: drop the wasted term or set its spend ≤ $20, leave TACOS under 22%. `/overnight --now` (wrapper `bin/overnight.sh`). | Ops checks only; **one** specialist (inventory). Cap is 2 but only inventory spawns. Brief attaches `reports/inventory-risk-YYYY-MM-DD.md`. No ads, listing, or creative spawn. |
 | 5 | Overnight, ads and inventory both flagging | Default fixtures: cover 12 days on the hero (still spending) and wasted term $40 / $0. `/overnight --now`. | Both inventory and ads specialists. Cap not exceeded. |
 | 6 | Overnight, three flags (inventory, ads, customer) | Trip a customer-seat flag as well (daily connected reviews plus a refund/review flag, or a customer row in logic.md that the daily files trip). `/overnight --now`. | inventory + ads only unless logic reordered those three. Cap 2. Never listing or creative. |
 | 7 | `logic.md` still `defaults-not-reviewed` | Stamp `status: defaults-not-reviewed` at the top of `reference/logic.md`. `/prove`. Then overnight. | `/prove` warns: `logic is still defaults — run /logic or your briefs will look like every other Amazon dashboard.` Does not stop. Overnight still runs on defaults. |
@@ -89,7 +89,7 @@ Host: macOS, grok 1.0.16. Folders: leftover `/tmp/northline-ops` from Task 11 `/
 | 1 | prove fixtures uses TACOS | **pass** (artifacts on disk from Task 11 live prove; fresh live re-run skipped) | `/tmp/northline-ops/reports/` has 6/6 files. Weekly top line is TACOS **4.36%**, target <18%, flag >22%. Fresh load into `/tmp/northline-ops-qa` copies fixture `logic.md` with TACOS and `status: reviewed`. `python3 tests/kit_check.py` → `ok`. |
 | 2 | delete ads source → `(not in the data)` + scoreboard | **skipped** live grok. **pass** pack | `operator-prove` scoreboard names `<metric> = no source.` `ppc-exception-brief` writes `(not in the data)` when ads/sales sources are missing and still writes the artifact. `/prove` does not fail on a missing watch source. Did not delete ads and re-prove in this environment. |
 | 3 | wrong columns named | **skipped** live grok. **pass** pack | `ppc-exception-brief`, `inventory-risk`, and `review-intelligence` all say: if the connected file is the wrong report, name the file and the expected columns; do not guess numbers. Did not drop a mutated CSV in front of a live agent. |
-| 4 | overnight inventory-only when only cover flags | **skipped** live overnight. **pass** rule + fixture math | Cover-only (hero 12d, TACOS 4.36% quiet, wasted cleared) maps to inventory. Workflow `let cap = 2` and never `agent_type: "listing"` / `"creative"`. Skill: quiet ads/customer → spawn nobody extra. Did not run `bin/overnight.sh`. |
+| 4 | overnight inventory-only when only cover flags | **skipped** live overnight. **pass** rule + fixture math | Cover-only (hero 12d, TACOS 4.36% quiet, wasted cleared) maps to inventory only. One specialist under cap 2. Workflow `let cap = 2` and never `agent_type: "listing"` / `"creative"`. Skill: quiet ads/customer → spawn nobody extra. Did not run `bin/overnight.sh`. |
 | 5 | two flags spawn two | **skipped** live overnight. **pass** rule + fixture math | Default fixtures trip inventory (cover 12d) and ads (wasted $40). Spawn `["inventory", "ads"]`. Cap not exceeded. |
 | 6 | three flags spawn inventory+ads | **skipped** live overnight. **pass** rule | Default priority inventory, ads, customer. `seats` schema maxItems 3; rhai truncates to `cap = 2` → inventory + ads unless logic reorders those three. |
 | 7 | defaults-not-reviewed warns | **skipped** live grok. **pass** pack | `operator-prove`: warn `logic is still defaults — run /logic or your briefs will look like every other Amazon dashboard.` Do not stop. `overnight-ops` still writes the brief and says so at the top. Fixture `logic.md` is reviewed (kit_check fails if it contains `defaults-not-reviewed`). |
@@ -105,7 +105,18 @@ python3 tests/kit_check.py          # ok
 grok plugin validate plugins/amazon-operator-os   # Plugin manifest is valid
 bash scripts/load-fixtures.sh /tmp/northline-ops-qa
 bash -n template/bin/overnight.sh   # ok
+bash scripts/sync-template-grok.sh && unzip -l dist/amazon-operator-os.zip | grep -E 'workflows/weekly|commands/prove|personas/operator'   # flat paths, no workflows/workflows
 ```
+
+### Zip integrity (add to pre-ship)
+
+After `bash scripts/build-zip.sh`, the zip must contain flat `.grok` paths:
+
+- `.grok/workflows/weekly-ops.rhai` (not `workflows/workflows/`)
+- `.grok/commands/prove.md` (not `commands/commands/`)
+- `.grok/personas/operator.toml` (not `personas/personas/`)
+
+`kit_check.py` fails if `template/.grok` has nested duplicates. Re-run sync before every zip build.
 
 ## Ship gate
 

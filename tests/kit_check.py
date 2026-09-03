@@ -50,8 +50,13 @@ def main() -> int:
         "docs/WHAT-GOOD-LOOKS-LIKE.md",
         "docs/DELIVER.md",
         "docs/QA.md",
+        "docs/ONBOARDING.md",
+        "template/reference/what-you-need.md",
     ]:
         require(ROOT / rel)
+    wyn = (TEMPLATE / "reference" / "what-you-need.md").read_text() if (TEMPLATE / "reference" / "what-you-need.md").exists() else ""
+    if "not Grok connections" not in wyn.lower() and "manual" not in wyn.lower():
+        fail("template/reference/what-you-need.md must distinguish exports from Grok connections")
     sources = (TEMPLATE / "reference" / "sources.md").read_text() if (TEMPLATE / "reference" / "sources.md").exists() else ""
     if "# Sources" not in sources:
         fail("template/reference/sources.md must start with a # Sources heading")

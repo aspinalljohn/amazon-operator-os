@@ -20,7 +20,9 @@ cd <brand-slug>-ops
 
 The zip **is** the business folder skeleton. At the root you should see `AGENTS.md`, `.grok/` (agents, skills, workflows, commands), `exports/`, `reference/`, `bin/`, `reports/`, `drafts/`, `logs/`. There is no inner `template/` folder in the zip.
 
-Optional: `INSTALL.md` and `EXPORTS.md` at the zip root are the install guide and export catalog.
+Optional: `INSTALL.md` and `EXPORTS.md` at the zip root are the install guide and export catalog. `ONBOARDING.md` explains what is a Grok connection vs a manual export. `reference/what-you-need.md` is the short version inside the business folder.
+
+**Before the brand interview:** Show the operator `reference/what-you-need.md` or the "two buckets" section of `ONBOARDING.md`. Say plainly: "Seller Central is not a Grok plugin — you export CSVs and drop them in exports/. Grok Bot + this zip is all you connect on the Grok side."
 
 **GitHub repo (maintainer path):** Copy `template/` from the repo to `~/Documents/<brand-slug>-ops/` (or the workspace). That folder has the same layout as the zip.
 
@@ -70,4 +72,18 @@ Grok Bot cannot always create agents programmatically. If not, print copy-paste 
 
 ## 6. Close
 
-Print `reference/how-to-refresh.md`. Say: "Drop or connect those files in `exports/`, then run `/prove` with your Ops bot." Do not install overnight. Do not run /prove unless they already dropped files and asked.
+Print `reference/how-to-refresh.md`.
+
+Then print this two-bucket summary (do not skip):
+
+```
+Grok-side (you did this today): Grok Bot + zip + six bots. No Seller Central plugin. No MCP required.
+
+Your-side (your homework): export files from Seller Central / Ads / Helium10 and drop them in exports/.
+  - First file to try: business report CSV → exports/sales/
+  - Full table: reference/what-you-need.md or ONBOARDING.md
+
+Optional later: Grok CLI (overnight on Mac), Slack webhook (brief delivery). Skip both for now unless they asked.
+```
+
+Say: "Drop or connect those files in `exports/`, then run `/prove` with your Ops bot." Do not install overnight. Do not run /prove unless they already dropped files and asked.

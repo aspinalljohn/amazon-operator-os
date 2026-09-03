@@ -21,7 +21,7 @@ One sitting. Camera on **Grok Bot**, not a terminal sales deck.
 
 1. **Grok Bot install** — download from [x.ai/bot](https://x.ai/bot), sign in with xAI. macOS / Windows / Linux. Point at `docs/INSTALL.md`.
 2. **Create a blank agent** — New → Create new agent. This becomes Ops. Do not pick a suggested teammate template.
-3. **Drop the zip** — attach `amazon-operator-os.zip` to that agent. First message: unzip and run `/operator-setup` (paste block from INSTALL.md). The agent unpacks the kit, interviews brand/sources/logic, and creates the six specialist bots from `.grok/agents/`.
+3. **Drop the zip** — attach `amazon-operator-os.zip`. First message: unzip and run `/operator-setup`. Point them at **`ONBOARDING.md`** before they export anything — Grok-side vs manual exports.
 4. **Drop one of their files** — follow the generated `reference/how-to-refresh.md`, not the full catalog in `docs/EXPORTS.md`. Newest file in the bucket wins. One real export is enough to see the path; they can add the rest after `/prove`.
 5. **`/prove`** — six dated artifacts under `reports/` plus the two-line scoreboard. Missing data is `(not in the data)`. A watch metric with no source is named on line two; that does not fail `/prove`. Compare against `docs/WHAT-GOOD-LOOKS-LIKE.md` (Northline Home, TACOS north star).
 

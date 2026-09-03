@@ -59,6 +59,19 @@ The agent unpacks the zip into a business folder (`AGENTS.md`, `.grok/`, `export
 
 ---
 
+## 3.5 Read ONBOARDING.md (2 minutes)
+
+Before you export anything, open **`ONBOARDING.md`** in the unzipped folder (or read it in the zip before setup).
+
+It answers the two questions every operator asks:
+
+1. **What do I connect to Grok?** → Grok Bot + zip only. Optional: CLI, webhooks.
+2. **What do I connect to Amazon?** → Nothing in Grok. You export CSVs and drop them in `exports/`.
+
+Short reference inside the business folder: `reference/what-you-need.md`.
+
+---
+
 ## 4. Drop your files
 
 Follow the generated `reference/how-to-refresh.md` — only the sources you connected, not the full catalog in `docs/EXPORTS.md`. Newest file in each `exports/` bucket wins.
